@@ -35,9 +35,7 @@ def select_file():
 def update_envelope(sender, app_data, user_data):
     state, enabled_theme, disabled_theme = user_data
     # Apply the appropriate theme
-    dpg.bind_item_theme(sender, enabled_theme if state is True else disabled_theme)
-    # Update the user_data associated with the button
-    dpg.set_item_user_data(sender, (state, enabled_theme, disabled_theme,))
+    dpg.bind_item_theme(sender, enabled_theme)
     if sender == "default":
         dpg.set_value(env_text,"Envelope type: Default")
         envelope = 1
@@ -53,11 +51,13 @@ def update_envelope(sender, app_data, user_data):
     else:
         dpg.set_value(env_text,"Envelope type: Complex")
         envelope = 5
+
     for env in envs:
         if sender != env:
             dpg.bind_item_theme(env, disabled_theme)
             dpg.set_item_user_data(env, (False, enabled_theme, disabled_theme,))
-    print(envelope)
+        else:
+            dpg.set_item_user_data(env, (True, enabled_theme, disabled_theme,))
 
 # below replaces, start_dearpygui()
 dpg.create_context()
@@ -95,9 +95,12 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
     while dpg.is_dearpygui_running():
         dpg.render_dearpygui_frame()
     
+dpg.bind_item_theme("default", enabled)
+# Update the user_data associated with the button
 
 dpg.create_viewport(title='Granular Synthesis', width=500, height=300)
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.set_primary_window("GS", True)
 dpg.start_dearpygui()
+
