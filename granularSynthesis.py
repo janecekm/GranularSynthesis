@@ -1,8 +1,9 @@
 """
-MADELINE JANECEK
+MADELINE JANECEK, BRENDAN PARK
 DECEMEBER 2022
-COSC 4P98 ASSIGNMENT 3 QUESTION 1
-Implementation of granular synthesis
+COSC 4P98 ASSIGNMENT PROJECT
+Implementation of granular synthesis w/ GUI and live-gran synth
+
 """
 
 import math                         # for things like sine and PI
@@ -208,22 +209,22 @@ def synthesizeGranularly(sample_table, output_dur,
     return output
 
 print("Reading Sample")
-filename = "GranularSynthesis\sine440.txt"    # CHANGE FOR DIFFERENT INPUT FILE
+filename = "data\sine440.txt"    # CHANGE FOR DIFFERENT INPUT FILE
 sample = read_sample_table(filename)
-outputname = "GranularSynthesis\ex7.txt"    # CHANGE FOR DIFFERENT OUTPUT FILE NAMES
+outputname = "data\example_output.txt"    # CHANGE FOR DIFFERENT OUTPUT FILE NAMES
 duration = 1            # CHANGE FOR DIFFERENT OUTPUT DURATION
 e = Envelope.COMPLEX  # CHANGE FOR DIFFERENT ENVELOPE TYPE (SEE ENVELOPE CLASS FOR OPTIONS)
 s = Selection.NORMAL    # CHANGE RANDOM DISTRIBUTIONS (SEE SELECTION CLASS FOR OPTIONS)
 g_duration = 50        # CHANGE BASE GRAIN DURATION
-g_var = 0.5               # CHANGE HOW MUCH GRAIN DURATION CAN VARY (PERCENTAGE, 0.5 = 50%)
-g_rate = 5             # CHANGE THE GRAIN GENERATION RATE
-g_rvar = 0              # CHANGE THE VARIATION IN GRAIN GENERATION (PERCENTAGE)
-g_pitch = 0.5             # CHANGE HOW MUCH GRAIN PITCH CHANGES (PERCENTAGE 1 is same pitch, <1 higher pitch, >1 lower pitch)
-g_pvar = 0.5              # CHANGE THE PITCH VARIATION (PERCENTAGE)
-cloud_c = len(sample)/2 # CHANGE THE CLOUD CENTER
-cloud_min = 0           # CHANGE THE CLOUD MIN
-cloud_max = len(sample) # CHANGE THE CLOUD MAX
-sample_rate = 44100     # CHAnGE the SAMPLE RATE
+g_var = 0.5                 # CHANGE HOW MUCH GRAIN DURATION CAN VARY (PERCENTAGE, 0.5 = 50%)
+g_rate = 5                  # CHANGE THE GRAIN GENERATION RATE
+g_rvar = 0                  # CHANGE THE VARIATION IN GRAIN GENERATION (PERCENTAGE)
+g_pitch = 0.5               # CHANGE HOW MUCH GRAIN PITCH CHANGES (PERCENTAGE 1 is same pitch, <1 higher pitch, >1 lower pitch)
+g_pvar = 0.5                # CHANGE THE PITCH VARIATION (PERCENTAGE)
+cloud_c = len(sample)/2     # CHANGE THE CLOUD CENTER
+cloud_min = 0               # CHANGE THE CLOUD MIN
+cloud_max = len(sample)     # CHANGE THE CLOUD MAX
+sample_rate = 44100         # CHAnGE the SAMPLE RATE
 print("Number of samples in wave table:", len(sample))
 print("Starting granular synthesis")
 result = synthesizeGranularly(sample, duration, e, s, g_duration, g_var, g_rate, g_rvar, g_pitch, g_pvar, cloud_c, cloud_min, cloud_max, sample_rate)
