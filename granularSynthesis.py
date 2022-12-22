@@ -1,8 +1,8 @@
 """
 MADELINE JANECEK, BRENDAN PARK
 DECEMEBER 2022
-COSC 4P98 ASSIGNMENT PROJECT
-Implementation of granular synthesis w/ GUI and live-gran synth
+COSC 4P98 PROJECT
+Implementation of granular synthesis w/ GUI
 
 """
 

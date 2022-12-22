@@ -116,6 +116,12 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
     dpg.add_input_float(label="Cloud Density (ms/sec)", width=200, default_value=50)
     dpg.add_slider_float(label="Cloud Density Variation",width=200, default_value=0, max_value = 100)
 
+    dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, max_value=100, width=200)
+    dpg.add_slider_float(label="Cloud Size (% of input)", default_value=100, max_value=100, width=200)
+
+    dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, max_value=100, width=200)
+    dpg.add_slider_float(label="Cloud Size (% of input)", default_value=100, max_value=100, width=200)
+
     # Envelope specification
     env_text = dpg.add_text("Envelope type: Default")
     with dpg.group(horizontal=True):
@@ -125,8 +131,9 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
         dpg.add_button(tag="untouched", label="Untouched", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
         dpg.add_button(tag="complex", label="Complex", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
         
-    dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, max_value=100, width=200)
-    dpg.add_slider_float(label="Cloud Size (% of input)", default_value=100, max_value=100, width=200)
+    
+
+    dpg.add_button(tag="do_thing",label="Synthesize", width=140)#callback will be running the synthesizer code
 
 
     
