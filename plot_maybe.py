@@ -17,12 +17,12 @@ data_y = [0.0] * nsamples
 data_x = [0.0] * nsamples
 
 def update_data():
-    sample = 1
+    #sample = 1
     t0 = time.time()
     frequency=1.0
     while True: #adjust to while next index of samples is not empty
 
-        t = time.time() - t0 #change time to be a counter to equal the index of the sample table
+        t = time.time() - t0 #change time to be a counter to equal the index of the sample table 
         y = math.sin(2.0 * math.pi * frequency * t) #y to be the value of the audio at the sample table
         data_x.append(t)
         data_y.append(y)
@@ -33,8 +33,26 @@ def update_data():
         dpg.fit_axis_data('y_axis')
         
         time.sleep(0.01)
-        sample=sample+1
+        #sample=sample+1
            
+def updated_data():
+    sample_table = []
+    with open("yeat.txt", "r") as f:
+        for thing, line in enumerate(f.readlines()):
+            sample_table.append(float(line.strip()))
+    f.close()
+        
+    for t in range(0,len(sample_table)):
+        y = sample_table[t]
+        data_x.append(t)
+        data_y.append(y)
+
+        dpg.set_value('series_tag', [list(data_x[-nsamples:]), list(data_y[-nsamples:])])
+        dpg.fit_axis_data('x_axis')
+        dpg.fit_axis_data('y_axis')
+
+        time.sleep(1/44100) #make it sleep according to sr? sleep 1/sr? idk
+
 
 
 dpg.create_context()
@@ -60,7 +78,7 @@ dpg.create_viewport(title='Custom Title', width=850, height=640)
 dpg.setup_dearpygui()
 dpg.show_viewport()
 
-thread = threading.Thread(target=update_data)
+thread = threading.Thread(target=updated_data)
 thread.start()
 dpg.start_dearpygui()
 

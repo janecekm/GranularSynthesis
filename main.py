@@ -2,6 +2,11 @@ import dearpygui.dearpygui as dpg       # for GUI
 from tkinter import filedialog as fd    # for file selection
 import sounddevice as sd                # to play .wav files
 import soundfile as sf                  # to play .wav files
+import math
+import time
+import collections
+import threading
+import pdb
 
 # GUI documentation:    https://dearpygui.readthedocs.io/en/latest/index.html
 # File Selection:       https://dearpygui.readthedocs.io/en/latest/documentation/file-directory-selector.html
@@ -14,6 +19,14 @@ fname = ''
 global text
 global buttons
 
+#for the graph of audio output
+nsamples = 100 #make number of samples as a parameter in the gui
+global data_y
+global data_x
+
+data_y = [0.0] * nsamples
+data_x = [0.0] * nsamples
+
 # for input file
 global input_wav_data
 global input_wav_fs
@@ -22,6 +35,21 @@ global input_wav_fs
 global envelope
 envelope = 1
 envs = ["default","triangle","bell","untouched","complex"]
+
+
+    
+def prep_data():
+    global nsamples
+    sample_table = []
+    with open("yeat.txt", "r") as f:
+        for thing, line in enumerate(f.readlines()):
+            sample_table.append(float(line.strip()))
+    f.close()
+    nsamples = len(sample_table)
+    indexes = list(range(0,nsamples+1))
+    return sample_table, indexes
+        
+
 
 def play_input():
     if fname == '':
@@ -33,6 +61,7 @@ def play_input():
             status = sd.wait() 
         except:
             dpg.set_value(msg_box, "Message Box: Input Playback Failure")
+
 
 def save_callback():
     print("Save Clicked")
@@ -85,6 +114,7 @@ def update_envelope(sender, app_data, user_data):
             dpg.set_item_user_data(env, (False, enabled_theme, disabled_theme,))
         else:
             dpg.set_item_user_data(env, (True, enabled_theme, disabled_theme,))
+    
 
 # below replaces, start_dearpygui()
 dpg.create_context()
@@ -135,9 +165,22 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
 
     dpg.add_button(tag="do_thing",label="Synthesize", width=140)#callback will be running the synthesizer code
 
+    with dpg.plot(label='Audio Sample', height=-1, width=-1):
+        
+        # series belong to a y axis. Note the tag name is used in the update
+        # function update_data
+        # optionally create legend
+        dpg.add_plot_legend()
+        samples, indexes = prep_data()
+        # REQUIRED: create x and y axes
+        dpg.add_plot_axis(dpg.mvXAxis, label="x")
+        dpg.add_plot_axis(dpg.mvYAxis, label="y", tag="y_axis")
 
+        # series belong to a y axis
+        dpg.add_line_series(indexes, samples, label="0.5 + 0.5 * sin(x)", parent="y_axis")
+        
     
-
+    
     while dpg.is_dearpygui_running():
         dpg.render_dearpygui_frame()
     
@@ -149,4 +192,4 @@ dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.set_primary_window("GS", True)
 dpg.start_dearpygui()
-
+dpg.destroy_context()
