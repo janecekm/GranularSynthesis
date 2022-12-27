@@ -12,7 +12,6 @@ import pdb
 # File Selection:       https://dearpygui.readthedocs.io/en/latest/documentation/file-directory-selector.html
 
 
-
 # for input file name
 global fname
 fname = ''
@@ -21,11 +20,6 @@ global buttons
 
 #for the graph of audio output
 nsamples = 100 #make number of samples as a parameter in the gui
-global data_y
-global data_x
-
-data_y = [0.0] * nsamples
-data_x = [0.0] * nsamples
 
 # for input file
 global input_wav_data
@@ -36,8 +30,7 @@ global envelope
 envelope = 1
 envs = ["default","triangle","bell","untouched","complex"]
 
-
-    
+"""
 def prep_data():
     global nsamples
     sample_table = []
@@ -49,8 +42,32 @@ def prep_data():
     indexes = list(range(0,nsamples+1))
     return sample_table, indexes
         
+"""
 
+def resize_in():
+    dpg.fit_axis_data("y_axis") 
+    dpg.fit_axis_data("x_axis")
 
+def update_in_display():
+    global nsamples
+    sample_table = []
+    for x in range(0, 100):
+        sample_table.append(x)
+    nsamples = len(sample_table)
+    indexes = list(range(0,nsamples))
+    dpg.set_value('input_line', [indexes, sample_table])
+    resize_in()
+
+# initial input graph display  
+def prep_in_display():
+    global nsamples
+    sample_table = []
+    for x in range(0, 100):
+        sample_table.append(0)
+    nsamples = len(sample_table)
+    indexes = list(range(0,nsamples+1))
+    return sample_table, indexes
+        
 def play_input():
     if fname == '':
         dpg.set_value(msg_box, "Message Box: No Input")
@@ -114,7 +131,6 @@ def update_envelope(sender, app_data, user_data):
             dpg.set_item_user_data(env, (False, enabled_theme, disabled_theme,))
         else:
             dpg.set_item_user_data(env, (True, enabled_theme, disabled_theme,))
-    
 
 # below replaces, start_dearpygui()
 dpg.create_context()
@@ -161,25 +177,22 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
         dpg.add_button(tag="untouched", label="Untouched", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
         dpg.add_button(tag="complex", label="Complex", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
         
-    
-
-    dpg.add_button(tag="do_thing",label="Synthesize", width=140)#callback will be running the synthesizer code
-
-    with dpg.plot(label='Audio Sample', height=-1, width=-1):
+    with dpg.plot(label='Input Sample', height=-1, width=-1, tag="input_plot"):
         
         # series belong to a y axis. Note the tag name is used in the update
         # function update_data
-        # optionally create legend
-        dpg.add_plot_legend()
-        samples, indexes = prep_data()
+
+        samples, indexes = prep_in_display()
         # REQUIRED: create x and y axes
-        dpg.add_plot_axis(dpg.mvXAxis, label="x")
-        dpg.add_plot_axis(dpg.mvYAxis, label="y", tag="y_axis")
+        dpg.add_plot_axis(dpg.mvXAxis, label="Time", tag="x_axis")
+        dpg.add_plot_axis(dpg.mvYAxis, label="Amplitude", tag="y_axis")
 
         # series belong to a y axis
-        dpg.add_line_series(indexes, samples, label="0.5 + 0.5 * sin(x)", parent="y_axis")
-        
+        dpg.add_line_series(indexes, samples, label="Audio Sample", parent="x_axis", tag="input_line")
     
+    dpg.add_button(tag="resize_in", label="Resize Graph", width=140, callback=resize_in)
+        
+    dpg.add_button(tag="do_thing",label="Synthesize", width=140)#callback will be running the synthesizer code
     
     while dpg.is_dearpygui_running():
         dpg.render_dearpygui_frame()
@@ -187,7 +200,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
 dpg.bind_item_theme("default", enabled)
 # Update the user_data associated with the button
 
-dpg.create_viewport(title='Granular Synthesis', width=500, height=300)
+dpg.create_viewport(title='Granular Synthesis', width=800, height=600)
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.set_primary_window("GS", True)

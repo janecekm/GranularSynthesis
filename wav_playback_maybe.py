@@ -1,11 +1,20 @@
-import sounddevice as sd
-import soundfile as sf
+import wave
+import numpy as np
 
-filename = './data/letsgo.wav'
-filename = 'C:/Users/madel/OneDrive/Documents/GitHub/GranularSynthesis/data/letsgo.wav'
-filename = "C:\Users\madel\OneDrive\Documents\GitHub\GranularSynthesis\data\letsgo.wav"
-filename = "C:\Users\madel\OneDrive\Uni\COSC 4P98\wavtxt_tools_win\wavtxt_tools_win\Clicking.wav"
+filename = "C:/Users/madel/OneDrive/Documents/GitHub/GranularSynthesis/data/letsgo.wav"
 
-data, fs = sf.read(filename, dtype='float32')  
-sd.play(data, fs)
-status = sd.wait() 
+wave_file = wave.open(filename)
+num_frames = wave_file.getnframes()
+audio = wave_file.readframes(num_frames)
+
+input_sample_table = np.frombuffer(audio, dtype=np.int16)
+
+
+"""
+wave_params = wave_file.getparams()
+num_frames = wave_params.nframes
+
+print(num_frames)
+byte_table = wave_file.readframes(num_frames)
+print(sample_table)
+print("Done")"""
