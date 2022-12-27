@@ -24,6 +24,10 @@ global buttons
 global nsamples
 nsamples = 100 #make number of samples as a parameter in the gui
 global sample_table
+global cloud_minimum
+cloud_minimum = 0
+global cloud_maximum
+cloud_maximum = 100
 
 # for input file
 global input_wav_data # sample table as numpy.ndarray
@@ -49,6 +53,39 @@ def update_in_display():
     cloud_center()
     resize_in()
 
+"""    global nsamples
+    global input_wav_data
+    c = dpg.get_value("center_slider")
+    nsamples = input_wav_data.size
+    if c == 0:
+        c = 1
+    indices = [nsamples*(c/100), nsamples*(c/100)] 
+    value = [-1, 1]
+    dpg.set_value("cloud_center", [indices, value])
+    min_update()
+    max_update()"""
+
+def min_update():
+    global cloud_minimum
+    center = int(nsamples*(dpg.get_value("center_slider")/100))
+    x = dpg.get_value("min_slider")
+    cloud_minimum = int(center*(x/100))
+
+    indices = [cloud_minimum, cloud_minimum] 
+    value = [-1, 1]
+    dpg.set_value("cloud_min", [indices, value])
+
+def max_update():
+    global cloud_maximum
+    center = int(nsamples*(dpg.get_value("center_slider")/100))
+    portion = nsamples - center
+    x = dpg.get_value("max_slider")
+    cloud_maximum = int(portion*(x/100)) + center
+
+    indices = [cloud_maximum, cloud_maximum] 
+    value = [-1, 1]
+    dpg.set_value("cloud_max", [indices, value])
+
 def synthesize():
     print("time to synthesize!")
     switch = {
@@ -59,7 +96,7 @@ def synthesize():
     }
 
     output = gs.synthesizeGranularly(fname,sample_table,5,switch.get(envelope,gs.Envelope.TRAPEZIUM),gs.Selection.NORMAL,
-    dpg.get_value("grain_dur"),dpg.get_value("grain_dur_var"),5,0,0.5,0.5,dpg.get_value("center_slider"),0,len(sample_table),44100)
+    dpg.get_value("grain_dur"),dpg.get_value("grain_dur_var"),5,0,0.5,0.5,int(nsamples*(dpg.get_value("center_slider")/100)),cloud_minimum,cloud_maximum,44100)
     
     print("Saving sample")
     gs.write_sample(output, "data\im_output.txt")
@@ -81,7 +118,7 @@ def prep_in_display():
     global input_wav_data
 
     sample_table = []
-    for x in range(0, 100):
+    for x in range(0, 101):
         sample_table.append(0)
     nsamples = len(sample_table)
     input_wav_data = np.array(sample_table, dtype=np.int8)
@@ -164,6 +201,8 @@ def cloud_center():
     indices = [nsamples*(c/100), nsamples*(c/100)] 
     value = [-1, 1]
     dpg.set_value("cloud_center", [indices, value])
+    min_update()
+    max_update()
 
 # below replaces, start_dearpygui()
 dpg.create_context()
@@ -198,11 +237,9 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
     dpg.add_input_float(label="Cloud Density (ms/sec)", width=200, default_value=50)
     dpg.add_slider_float(label="Cloud Density Variation",width=200, default_value=0, max_value = 100)
 
-    dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, max_value=100, width=200, callback=cloud_center, tag="center_slider")
-    dpg.add_slider_float(label="Cloud Size (% of input)", default_value=100, max_value=100, width=200)
-
-    dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, max_value=100, width=200)
-    dpg.add_slider_float(label="Cloud Size (% of input)", default_value=100, max_value=100, width=200)
+    dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, min_value = 1, max_value=100, width=200, callback=cloud_center, tag="center_slider")
+    dpg.add_slider_float(label="Cloud Minimum", default_value=0, max_value=100, min_value = 0, width=200, callback=min_update, tag="min_slider")
+    dpg.add_slider_float(label="Cloud Maximum", default_value=100, max_value=100, min_value = 1, width=200, callback=max_update, tag="max_slider")
 
     # Envelope specification
     env_text = dpg.add_text("Envelope type: Default")
@@ -215,6 +252,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
 
     dpg.add_button(tag='synth',label='Synthesize', width = 140, callback = synthesize)
         
+    # input wave graph
     with dpg.plot(label='Input Sample', height=-1, width=-1, tag="input_plot"):
         dpg.add_plot_legend()
 
@@ -225,13 +263,14 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
         dpg.add_line_series(indexes, samples, label="Audio Sample", parent="x_axis", tag="input_line")
         
         dpg.add_line_series([50, 50], [-1, 1], label="Cloud Center", parent="y_axis", tag="cloud_center")
+        dpg.add_line_series([0, 0], [-1, 1], label="Cloud Min", parent="y_axis", tag="cloud_min")
+        dpg.add_line_series([100, 100], [-1, 1], label="Cloud Max", parent="y_axis", tag="cloud_max")
         
 
     with dpg.group(horizontal=True):
         dpg.add_button(tag="resize_in", label="Recenter Graph", width=140, callback=resize_in)
         dpg.add_button(label="Fit Data", width=140, callback=lambda: dpg.fit_axis_data("y_axis"))
     
-    #dpg.add_button(tag="do_thing",label="Synthesize", width=140)#callback will be running the synthesizer code
     
     while dpg.is_dearpygui_running():
         dpg.render_dearpygui_frame()
