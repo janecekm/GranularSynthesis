@@ -8,11 +8,10 @@ import collections
 import threading
 import pdb
 import wave
-import numpy
+import numpy as np
 
 # GUI documentation:    https://dearpygui.readthedocs.io/en/latest/index.html
 # File Selection:       https://dearpygui.readthedocs.io/en/latest/documentation/file-directory-selector.html
-
 
 # for input file name
 global fname
@@ -46,15 +45,19 @@ def update_in_display():
     for x in range(nsamples):
         indices.append(x)
     dpg.set_value('input_line', [indices, input_wav_data])
+    cloud_center()
     resize_in()
 
 # initial input graph display  
 def prep_in_display():
     global nsamples
+    global input_wav_data
+
     sample_table = []
     for x in range(0, 100):
         sample_table.append(0)
     nsamples = len(sample_table)
+    input_wav_data = np.array(sample_table, dtype=np.int8)
     indexes = list(range(0,nsamples))
     return sample_table, indexes
         
@@ -68,7 +71,6 @@ def play_input():
             sd.wait() 
         except:
             dpg.set_value(msg_box, "Message Box: Input Playback Failure")
-
 
 def save_callback():
     print("Save Clicked")
@@ -125,6 +127,17 @@ def update_envelope(sender, app_data, user_data):
         else:
             dpg.set_item_user_data(env, (True, enabled_theme, disabled_theme,))
 
+def cloud_center():
+    global nsamples
+    global input_wav_data
+    c = dpg.get_value("center_slider")
+    nsamples = input_wav_data.size
+    if c == 0:
+        c = 1
+    indices = [nsamples*(c/100), nsamples*(c/100)] 
+    value = [-1, 1]
+    dpg.set_value("cloud_center", [indices, value])
+
 # below replaces, start_dearpygui()
 dpg.create_context()
 
@@ -158,7 +171,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
     dpg.add_input_float(label="Cloud Density (ms/sec)", width=200, default_value=50)
     dpg.add_slider_float(label="Cloud Density Variation",width=200, default_value=0, max_value = 100)
 
-    dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, max_value=100, width=200)
+    dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, max_value=100, width=200, callback=cloud_center, tag="center_slider")
     dpg.add_slider_float(label="Cloud Size (% of input)", default_value=100, max_value=100, width=200)
 
     dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, max_value=100, width=200)
@@ -174,20 +187,21 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
         dpg.add_button(tag="complex", label="Complex", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
         
     with dpg.plot(label='Input Sample', height=-1, width=-1, tag="input_plot"):
-        
-        # series belong to a y axis. Note the tag name is used in the update
-        # function update_data
+        dpg.add_plot_legend()
 
         samples, indexes = prep_in_display()
-        # REQUIRED: create x and y axes
         dpg.add_plot_axis(dpg.mvXAxis, label="Time", tag="x_axis")
         dpg.add_plot_axis(dpg.mvYAxis, label="Amplitude", tag="y_axis")
 
-        # series belong to a y axis
         dpg.add_line_series(indexes, samples, label="Audio Sample", parent="x_axis", tag="input_line")
-    
-    dpg.add_button(tag="resize_in", label="Resize Graph", width=140, callback=resize_in)
         
+        dpg.add_line_series([50, 50], [-1, 1], label="Cloud Center", parent="y_axis", tag="cloud_center")
+        
+
+    with dpg.group(horizontal=True):
+        dpg.add_button(tag="resize_in", label="Recenter Graph", width=140, callback=resize_in)
+        dpg.add_button(label="Fit Data", width=140, callback=lambda: dpg.fit_axis_data("y_axis"))
+    
     dpg.add_button(tag="do_thing",label="Synthesize", width=140)#callback will be running the synthesizer code
     
     while dpg.is_dearpygui_running():
