@@ -116,7 +116,6 @@ def synthesize():
 def prep_in_display():
     global nsamples
     global input_wav_data
-
     sample_table = []
     for x in range(0, 101):
         sample_table.append(0)
@@ -124,7 +123,7 @@ def prep_in_display():
     input_wav_data = np.array(sample_table, dtype=np.int8)
     indexes = list(range(0,nsamples))
     return sample_table, indexes
-        
+
 def play_input():
     if fname == '':
         dpg.set_value(msg_box, "Message Box: No Input")
@@ -218,67 +217,72 @@ with dpg.theme() as disabled:
 
 with dpg.window(tag="GS", label="GS", width=800, height=300):
     # BUTTON FOR TESTING/DEBUGGING - CHANGE CALLBACK AT WILL
-    dpg.add_button(tag="temp", label="temp", width=140, callback=update_in_display)
-
-    # Message Box
-    msg_box = dpg.add_text("Message Box :")
-
-    # Input file selection
+    # dpg.add_button(tag="temp", label="temp", width=140, callback=update_in_display)
     with dpg.group(horizontal=True):
-        dpg.add_button(label="Preview Input", callback=play_input)
-        dpg.add_button(label="Select File", callback=select_file)
-    text = dpg.add_text("File Name: "+fname)
-    
-    # Grain specification
-    dpg.add_input_float(label="Grain Duration (ms)", width=200, default_value=50,tag="grain_dur")
-    dpg.add_slider_float(label="Grain Duration Variation",width=200, default_value=0, max_value = 100, tag="grain_dur_var")
-    
-    # Cloud specification
-    dpg.add_input_float(label="Cloud Density (ms/sec)", width=200, default_value=50)
-    dpg.add_slider_float(label="Cloud Density Variation",width=200, default_value=0, max_value = 100)
+        with dpg.group():
+            # Message Box
+            msg_box = dpg.add_text("Message Box :")
 
-    dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, min_value = 1, max_value=100, width=200, callback=cloud_center, tag="center_slider")
-    dpg.add_slider_float(label="Cloud Minimum", default_value=0, max_value=100, min_value = 0, width=200, callback=min_update, tag="min_slider")
-    dpg.add_slider_float(label="Cloud Maximum", default_value=100, max_value=100, min_value = 1, width=200, callback=max_update, tag="max_slider")
+            # Input file selection
+            with dpg.collapsing_header(label="Input File Selection"):
+                with dpg.group(horizontal=True):
+                    dpg.add_button(label="Preview Input", callback=play_input)
+                    dpg.add_button(label="Select File", callback=select_file)
+                text = dpg.add_text("File Name: "+fname)
+            
+            # Grain specification
+            with dpg.collapsing_header(label="Grain Specifications"):
+                dpg.add_input_float(label="Grain Duration (ms)", width=200, default_value=50,tag="grain_dur")
+                dpg.add_slider_float(label="Grain Duration Variation",width=200, default_value=0, max_value = 100, tag="grain_dur_var")
+                
+            # Cloud specification
+            with dpg.collapsing_header(label="Cloud Specifications"):
+                dpg.add_input_float(label="Cloud Density (ms/sec)", width=200, default_value=50)
+                dpg.add_slider_float(label="Cloud Density Variation",width=200, default_value=0, max_value = 100)
 
-    # Envelope specification
-    env_text = dpg.add_text("Envelope type: Default")
-    with dpg.group(horizontal=True):
-        dpg.add_button(tag="default", label="Default", width=70, callback=update_envelope, user_data=(True, enabled, disabled,))
-        dpg.add_button(tag="triangle", label="Triangle", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
-        dpg.add_button(tag="bell", label="Bell", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
-        dpg.add_button(tag="untouched", label="Untouched", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
-        dpg.add_button(tag="complex", label="Complex", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
+                dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, min_value = 1, max_value=100, width=200, callback=cloud_center, tag="center_slider")
+                dpg.add_slider_float(label="Cloud Minimum", default_value=0, max_value=100, min_value = 0, width=200, callback=min_update, tag="min_slider")
+                dpg.add_slider_float(label="Cloud Maximum", default_value=100, max_value=100, min_value = 1, width=200, callback=max_update, tag="max_slider")
 
-    dpg.add_button(tag='synth',label='Synthesize', width = 140, callback = synthesize)
+            # Envelope specification
+            with dpg.collapsing_header(label="Envelope Specifications"):
+                env_text = dpg.add_text("Envelope type: Default")
+                with dpg.group(horizontal=True):
+                    dpg.add_button(tag="default", label="Default", width=150, callback=update_envelope, user_data=(True, enabled, disabled,))
+                with dpg.group(horizontal=True):
+                    dpg.add_button(tag="triangle", label="Triangle", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
+                    dpg.add_button(tag="bell", label="Bell", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
+                with dpg.group(horizontal=True):
+                    dpg.add_button(tag="untouched", label="Untouched", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
+                    dpg.add_button(tag="complex", label="Complex", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
+
+            dpg.add_button(tag='synth',label='Synthesize', width = 140, callback = synthesize)
         
-    # input wave graph
-    with dpg.plot(label='Input Sample', height=-1, width=-1, tag="input_plot"):
-        dpg.add_plot_legend()
+        with dpg.group():
+        # input wave graph
+            with dpg.group(horizontal=True):
+                dpg.add_button(tag="resize_in", label="Recenter Graph", width=140, callback=resize_in)
+                dpg.add_button(label="Fit Data", width=140, callback=lambda: dpg.fit_axis_data("y_axis"))
+            with dpg.plot(label='Input Sample', height=-1, width=-1, tag="input_plot"):
+                dpg.add_plot_legend()
 
-        samples, indexes = prep_in_display()
-        dpg.add_plot_axis(dpg.mvXAxis, label="Time", tag="x_axis")
-        dpg.add_plot_axis(dpg.mvYAxis, label="Amplitude", tag="y_axis")
+                samples, indexes = prep_in_display()
+                dpg.add_plot_axis(dpg.mvXAxis, label="Time", tag="x_axis")
+                dpg.add_plot_axis(dpg.mvYAxis, label="Amplitude", tag="y_axis")
 
-        dpg.add_line_series(indexes, samples, label="Audio Sample", parent="x_axis", tag="input_line")
-        
-        dpg.add_line_series([50, 50], [-1, 1], label="Cloud Center", parent="y_axis", tag="cloud_center")
-        dpg.add_line_series([0, 0], [-1, 1], label="Cloud Min", parent="y_axis", tag="cloud_min")
-        dpg.add_line_series([100, 100], [-1, 1], label="Cloud Max", parent="y_axis", tag="cloud_max")
-        
+                dpg.add_line_series(indexes, samples, label="Audio Sample", parent="x_axis", tag="input_line")
+                
+                dpg.add_line_series([50, 50], [-1, 1], label="Cloud Center", parent="y_axis", tag="cloud_center")
+                dpg.add_line_series([0, 0], [-1, 1], label="Cloud Min", parent="y_axis", tag="cloud_min")
+                dpg.add_line_series([100, 100], [-1, 1], label="Cloud Max", parent="y_axis", tag="cloud_max")
 
-    with dpg.group(horizontal=True):
-        dpg.add_button(tag="resize_in", label="Recenter Graph", width=140, callback=resize_in)
-        dpg.add_button(label="Fit Data", width=140, callback=lambda: dpg.fit_axis_data("y_axis"))
-    
-    
     while dpg.is_dearpygui_running():
         dpg.render_dearpygui_frame()
     
 dpg.bind_item_theme("default", enabled)
 # Update the user_data associated with the button
 
-dpg.create_viewport(title='Granular Synthesis', width=800, height=600)
+dpg.create_viewport(title='Granular Synthesis', width=1200, height=550)
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.set_primary_window("GS", True)
