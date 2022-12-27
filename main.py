@@ -9,6 +9,7 @@ import threading
 import pdb
 import wave
 import numpy as np
+import granularSynthesis as gs
 
 # GUI documentation:    https://dearpygui.readthedocs.io/en/latest/index.html
 # File Selection:       https://dearpygui.readthedocs.io/en/latest/documentation/file-directory-selector.html
@@ -47,6 +48,32 @@ def update_in_display():
     dpg.set_value('input_line', [indices, input_wav_data])
     cloud_center()
     resize_in()
+
+def synthesize():
+    print("time to synthesize!")
+    switch = {
+        2: gs.Envelope.TRIANGLE,
+        3: gs.Envelope.BELL,
+        4: gs.Envelope.UNTOUCHED,
+        5: gs.Envelope.COMPLEX
+    }
+
+    output = gs.synthesizeGranularly(fname,sample_table,5,switch.get(envelope,gs.Envelope.TRAPEZIUM),gs.Selection.NORMAL,
+    dpg.get_value("grain_dur"),dpg.get_value("grain_dur_var"),5,0,0.5,0.5,dpg.get_value("center_slider"),0,len(sample_table),44100)
+    
+    print("Saving sample")
+    gs.write_sample(output, "data\im_output.txt")
+    #this will eventually call the granularSynthesis code with the provided parameters
+    #parameters not yet added to the gui are hardcoded into the call
+    #Once we've added all parameters we want we can modify this function to not just
+    #save the output but present it on a graph or whatever else
+    #Variables still to add:
+    # output duration
+    # grain_rate & grain_rate_var
+    # grain_pitch & grain_pitch_var
+    # cloud_min & cloud_max
+    # sample_rate
+    # output fname
 
 # initial input graph display  
 def prep_in_display():
@@ -164,8 +191,8 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
     text = dpg.add_text("File Name: "+fname)
     
     # Grain specification
-    dpg.add_input_float(label="Grain Duration (ms)", width=200, default_value=50)
-    dpg.add_slider_float(label="Grain Duration Variation",width=200, default_value=0, max_value = 100)
+    dpg.add_input_float(label="Grain Duration (ms)", width=200, default_value=50,tag="grain_dur")
+    dpg.add_slider_float(label="Grain Duration Variation",width=200, default_value=0, max_value = 100, tag="grain_dur_var")
     
     # Cloud specification
     dpg.add_input_float(label="Cloud Density (ms/sec)", width=200, default_value=50)
@@ -185,6 +212,8 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
         dpg.add_button(tag="bell", label="Bell", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
         dpg.add_button(tag="untouched", label="Untouched", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
         dpg.add_button(tag="complex", label="Complex", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
+
+    dpg.add_button(tag='synth',label='Synthesize', width = 140, callback = synthesize)
         
     with dpg.plot(label='Input Sample', height=-1, width=-1, tag="input_plot"):
         dpg.add_plot_legend()
@@ -202,7 +231,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
         dpg.add_button(tag="resize_in", label="Recenter Graph", width=140, callback=resize_in)
         dpg.add_button(label="Fit Data", width=140, callback=lambda: dpg.fit_axis_data("y_axis"))
     
-    dpg.add_button(tag="do_thing",label="Synthesize", width=140)#callback will be running the synthesizer code
+    #dpg.add_button(tag="do_thing",label="Synthesize", width=140)#callback will be running the synthesizer code
     
     while dpg.is_dearpygui_running():
         dpg.render_dearpygui_frame()

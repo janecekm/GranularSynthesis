@@ -181,13 +181,18 @@ Function that actually performs the granular synthesis
     cloud_center, cloud_min, cloud_max: specify where the grains are selected from
     sample_rate: sample rate of the sample/output
 """
-def synthesizeGranularly(sample_table, output_dur,
+def synthesizeGranularly(fname, sample_table, output_dur,
                         envelope_type, distribution_type,
                         grain_dur, grain_dur_var, 
                         grain_rate, grain_rate_var, 
                         grain_pitch, grain_pitch_var, 
                         cloud_center, cloud_min, cloud_max, 
                         sample_rate = 44100):
+    print("Reading Sample")
+    print("Number of samples in wave table:", len(sample_table))
+    print("Starting granular synthesis")
+    
+    
     output_size = int(sample_rate*output_dur)
     output = [0]*output_size
     grain_size = int(sample_rate*(grain_dur/1000))
@@ -208,25 +213,25 @@ def synthesizeGranularly(sample_table, output_dur,
                         output[x+y] += grain[y]
     return output
 
-print("Reading Sample")
-filename = "data\sine440.txt"    # CHANGE FOR DIFFERENT INPUT FILE
-sample = read_sample_table(filename)
-outputname = "data\example_output.txt"    # CHANGE FOR DIFFERENT OUTPUT FILE NAMES
-duration = 1            # CHANGE FOR DIFFERENT OUTPUT DURATION
-e = Envelope.COMPLEX  # CHANGE FOR DIFFERENT ENVELOPE TYPE (SEE ENVELOPE CLASS FOR OPTIONS)
-s = Selection.NORMAL    # CHANGE RANDOM DISTRIBUTIONS (SEE SELECTION CLASS FOR OPTIONS)
-g_duration = 50        # CHANGE BASE GRAIN DURATION
-g_var = 0.5                 # CHANGE HOW MUCH GRAIN DURATION CAN VARY (PERCENTAGE, 0.5 = 50%)
-g_rate = 5                  # CHANGE THE GRAIN GENERATION RATE
-g_rvar = 0                  # CHANGE THE VARIATION IN GRAIN GENERATION (PERCENTAGE)
-g_pitch = 0.5               # CHANGE HOW MUCH GRAIN PITCH CHANGES (PERCENTAGE 1 is same pitch, <1 higher pitch, >1 lower pitch)
-g_pvar = 0.5                # CHANGE THE PITCH VARIATION (PERCENTAGE)
-cloud_c = len(sample)/2     # CHANGE THE CLOUD CENTER
-cloud_min = 0               # CHANGE THE CLOUD MIN
-cloud_max = len(sample)     # CHANGE THE CLOUD MAX
-sample_rate = 44100         # CHAnGE the SAMPLE RATE
-print("Number of samples in wave table:", len(sample))
-print("Starting granular synthesis")
-result = synthesizeGranularly(sample, duration, e, s, g_duration, g_var, g_rate, g_rvar, g_pitch, g_pvar, cloud_c, cloud_min, cloud_max, sample_rate)
-print("Saving sample")
-write_sample(result, outputname)
+# print("Reading Sample")
+# filename = "data\sine440.txt"    # CHANGE FOR DIFFERENT INPUT FILE
+# sample = read_sample_table(filename)
+# outputname = "data\example_output.txt"    # CHANGE FOR DIFFERENT OUTPUT FILE NAMES
+# duration = 1            # CHANGE FOR DIFFERENT OUTPUT DURATION
+# e = Envelope.COMPLEX  # CHANGE FOR DIFFERENT ENVELOPE TYPE (SEE ENVELOPE CLASS FOR OPTIONS)
+# s = Selection.NORMAL    # CHANGE RANDOM DISTRIBUTIONS (SEE SELECTION CLASS FOR OPTIONS)
+# g_duration = 50        # CHANGE BASE GRAIN DURATION
+# g_var = 0.5                 # CHANGE HOW MUCH GRAIN DURATION CAN VARY (PERCENTAGE, 0.5 = 50%)
+# g_rate = 5                  # CHANGE THE GRAIN GENERATION RATE
+# g_rvar = 0                  # CHANGE THE VARIATION IN GRAIN GENERATION (PERCENTAGE)
+# g_pitch = 0.5               # CHANGE HOW MUCH GRAIN PITCH CHANGES (PERCENTAGE 1 is same pitch, <1 higher pitch, >1 lower pitch)
+# g_pvar = 0.5                # CHANGE THE PITCH VARIATION (PERCENTAGE)
+# cloud_c = len(sample)/2     # CHANGE THE CLOUD CENTER
+# cloud_min = 0               # CHANGE THE CLOUD MIN
+# cloud_max = len(sample)     # CHANGE THE CLOUD MAX
+# sample_rate = 44100         # CHANGE THE SAMPLE RATE
+# print("Number of samples in wave table:", len(sample))
+# print("Starting granular synthesis")
+# result = synthesizeGranularly(sample, duration, e, s, g_duration, g_var, g_rate, g_rvar, g_pitch, g_pvar, cloud_c, cloud_min, cloud_max, sample_rate)
+# print("Saving sample")
+# write_sample(result, outputname)
