@@ -31,6 +31,7 @@ cloud_maximum = 100
 
 header_length = 400
 
+
 # for input file
 global input_wav_data # sample table as numpy.ndarray
 global input_wav_fs
@@ -130,9 +131,10 @@ def play_input():
         dpg.set_value(msg_box, "Message Box: No Input")
     else: 
         try:
-            print(fname)
+            dpg.disable_item("input_preview")
             sd.play(input_wav_data, input_wav_fs)
             sd.wait() 
+            dpg.enable_item("input_preview")
         except:
             dpg.set_value(msg_box, "Message Box: Input Playback Failure")
 
@@ -241,22 +243,22 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
             # Input file selection
             with dpg.collapsing_header(label="Input File Selection"):
                 with dpg.group(horizontal=True):
-                    dpg.add_button(label="Preview Input", callback=play_input)
+                    preview_button = dpg.add_button(label="Preview Input", callback=play_input, tag = "input_preview")
                     dpg.add_button(label="Select File", callback=select_file)
                 text = dpg.add_text("File Name: "+fname)
             
             # Grain specification
             with dpg.collapsing_header(label="Grain Specifications"):
                 dpg.add_input_float(label="Grain Duration (ms)", width=200, default_value=50,tag="grain_dur")
-                dpg.add_slider_float(label="Grain Duration Variation",width=200, default_value=0, max_value = 100, tag="grain_dur_var")
+                dpg.add_slider_float(label="Grain Duration Variation (%)",width=200, default_value=0, max_value = 100, tag="grain_dur_var")
                 
             # Cloud specification
             with dpg.collapsing_header(label="Cloud Specifications"):
                 dpg.add_input_float(label="Cloud Density (ms/sec)", width=200, default_value=50)
-                dpg.add_slider_float(label="Cloud Density Variation",width=200, default_value=0, max_value = 100)
+                dpg.add_slider_float(label="Cloud Density Variation (%)",width=200, default_value=0, max_value = 100)
 
-                dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, min_value = 1, max_value=100, width=200, callback=cloud_center, tag="center_slider")
-                dpg.add_slider_float(label="Cloud Minimum", default_value=0, max_value=100, min_value = 0, width=200, callback=min_update, tag="min_slider")
+                dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, min_value = 1, max_value=99, width=200, callback=cloud_center, tag="center_slider")
+                dpg.add_slider_float(label="Cloud Minimum", default_value=0, max_value=99, min_value = 0, width=200, callback=min_update, tag="min_slider")
                 dpg.add_slider_float(label="Cloud Maximum", default_value=100, max_value=100, min_value = 1, width=200, callback=max_update, tag="max_slider")
 
             # Envelope specification
@@ -268,7 +270,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
                         dpg.add_button(tag="bell", label="Bell", width=190, height=25,callback=update_envelope, user_data=(False, enabled, disabled,))
                         dpg.add_button(tag="untouched", label="Untouched", width=190, height=25,callback=update_envelope, user_data=(False, enabled, disabled,))
                         dpg.add_button(tag="complex", label="Complex", width=190, height = 25, callback=update_envelope, user_data=(False, enabled, disabled,))
-                    with dpg.plot(label='Envelope', height=142, width=200, tag="e_plot", no_mouse_pos=True):
+                    with dpg.plot(label='Envelope', height=141, width=185, tag="e_plot", no_mouse_pos=True):
                         dpg.add_plot_legend()
                         samples, indexes = prep_in_display()
                         dpg.add_plot_axis(dpg.mvXAxis, tag="ex_axis", no_tick_labels=True, no_tick_marks=True)
