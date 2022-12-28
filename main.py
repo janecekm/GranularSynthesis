@@ -37,6 +37,10 @@ button_height = 25
 global input_wav_data # sample table as numpy.ndarray
 global input_wav_fs
 
+# for output file
+global output_wav_data
+output_wav_data = np.array([])
+
 # for envelope
 global envelope
 envelope = 1
@@ -82,7 +86,19 @@ def max_update():
     value = [-1, 1]
     dpg.set_value("cloud_max", [indices, value])
 
+def disable_buttons():
+    dpg.disable_item("synth")
+    dpg.disable_item("input_preview")
+    dpg.disable_item("output_preview")
+
+def enable_buttons():
+    dpg.enable_item("synth")
+    dpg.enable_item("input_preview")
+    dpg.enable_item("output_preview")
+
 def synthesize():
+    disable_buttons()
+    dpg.set_value(msg_box, "Generating Output...")
     print("time to synthesize!")
     switch = {
         2: gs.Envelope.TRIANGLE,
@@ -94,21 +110,44 @@ def synthesize():
     if fname == '': 
         dpg.set_value(msg_box, "Error: No Input File")
         return
+    if dpg.get_value("out_dur") <= 0:
+        dpg.set_value(msg_box, "Error: Ouput Duration must be greater than 0")
+        return 
+    if dpg.get_value("grain_dur") <= 0:
+        dpg.set_value(msg_box, "Error: Grain Duration must be greater than 0")
+        return 
+    if dpg.get_value("cloud_density") <=0: 
+        dpg.set_value(msg_box, "Error: Cloud Density must be greater than 0")
+        return 
 
-    output = gs.synthesizeGranularly(fname,sample_table,5,switch.get(envelope,gs.Envelope.TRAPEZIUM),gs.Selection.NORMAL,
-    dpg.get_value("grain_dur"),dpg.get_value("grain_dur_var"),5,0,0.5,0.5,int(nsamples*(dpg.get_value("center_slider")/100)),cloud_minimum,cloud_maximum,44100)
+    output = gs.synthesizeGranularly(fname, input_wav_data, dpg.get_value("out_dur"), switch.get(envelope,gs.Envelope.TRAPEZIUM),
+    gs.Selection.NORMAL, dpg.get_value("grain_dur"), dpg.get_value("grain_dur_var"),
+    dpg.get_value("cloud_density"),dpg.get_value("cloud_density_var"),
+    dpg.get_value("grain_pitch"),dpg.get_value("grain_pitch_var"), int(nsamples*(dpg.get_value("center_slider")/100)), cloud_minimum, cloud_maximum, 44100)
+
+    global output_wav_data
+    output_wav_data = np.array(output)
+
+    # show on graph
+    indices = []
+    for x in range(output_wav_data.size):
+        indices.append(x)
+    dpg.set_value('output_line', [indices, output_wav_data])
+    resize_out()
+
+
+    dpg.set_value(msg_box, "Output Generated")
+    enable_buttons()
     
-    print("Saving sample")
-    gs.write_sample(output, "data\im_output.txt")
+    #print("Saving sample")
+    #gs.write_sample(output, "data\im_output.txt")
+
     #this will eventually call the granularSynthesis code with the provided parameters
     #parameters not yet added to the gui are hardcoded into the call
     #Once we've added all parameters we want we can modify this function to not just
     #save the output but present it on a graph or whatever else
     #Variables still to add:
-    # output duration
-    # grain_rate & grain_rate_var
     # grain_pitch & grain_pitch_var
-    # cloud_min & cloud_max
     # sample_rate
     # output fname
 
@@ -145,10 +184,13 @@ def play_input():
             dpg.set_value(msg_box, "Error: Input Playback Failure")    
 
 def play_output():
+    if output_wav_data.size == 0: 
+        dpg.set_value(msg_box, "Error: No Output to Play")   
     print("play output")
 
 def save_callback():
-    print("Save Clicked")
+    if output_wav_data == None:
+        dpg.set_value(msg_box, "Error: No Ouput to Save")
 
 def callback(sender, app_data):
     print('OK was clicked.')
@@ -250,7 +292,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
             dpg.add_button(tag='synth',label='Synthesize', width = 418, height=button_height, callback = synthesize)
             with dpg.group(horizontal=True):
                 dpg.add_button(label="Play Input", width = 133, height=button_height, callback=play_input, tag = "input_preview")
-                dpg.add_button(label="Play Output", width = 133, height=button_height, callback=play_output)
+                dpg.add_button(label="Play Output", width = 133, height=button_height, callback=play_output, tag = "output_preview")
                 dpg.add_button(label = "Stop Playback", width = 133, height=button_height, callback=sd.stop)
                     
             # Message Box
@@ -264,13 +306,13 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
                     text = dpg.add_text("File Name: "+fname)
 
             # Output Specification
-            with dpg.collapsing_header(label="Save Output"):
-                dpg.add_input_float(label="Output duration (s)", default_value=1, width=200)
+            with dpg.collapsing_header(label="Output Specifications"):
+                dpg.add_input_float(label="Output Duration (s)", default_value=1, width=200, tag="out_dur")
                 dpg.add_input_text(width = 200, label="Ouptut File Name", default_value="output_file")
                 with dpg.group(horizontal=True):
                     dpg.add_button(label="Select Folder", callback=select_file)
                     dpg.add_text("Folder Name: ")
-                dpg.add_button(label="Save", width=418, height=button_height)
+                dpg.add_button(label="Save", width=418, height=button_height, callback = save_callback)
 
             # Grain specification
             with dpg.collapsing_header(label="Grain Specifications"):
@@ -283,8 +325,8 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
                 
             # Cloud specification
             with dpg.collapsing_header(label="Cloud Specifications"):
-                dpg.add_input_float(label="Cloud Density (ms/sec)", width=200, default_value=50)
-                dpg.add_slider_float(label="Cloud Density Variation (%)",width=200, default_value=0, max_value = 100)
+                dpg.add_input_float(tag="cloud_density", label="Cloud Density (ms/sec)", width=200, default_value=50)
+                dpg.add_slider_float(tag="cloud_density_var", label="Cloud Density Variation (%)",width=200, default_value=0, max_value = 100)
 
                 dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, min_value = 1, max_value=99, width=200, callback=cloud_center, tag="center_slider")
                 dpg.add_slider_float(label="Cloud Minimum", default_value=0, max_value=99, min_value = 0, width=200, callback=min_update, tag="min_slider")
