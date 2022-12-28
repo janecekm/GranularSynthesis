@@ -29,6 +29,8 @@ cloud_minimum = 0
 global cloud_maximum
 cloud_maximum = 100
 
+header_length = 400
+
 # for input file
 global input_wav_data # sample table as numpy.ndarray
 global input_wav_fs
@@ -52,18 +54,6 @@ def update_in_display():
     dpg.set_value('input_line', [indices, input_wav_data])
     cloud_center()
     resize_in()
-
-"""    global nsamples
-    global input_wav_data
-    c = dpg.get_value("center_slider")
-    nsamples = input_wav_data.size
-    if c == 0:
-        c = 1
-    indices = [nsamples*(c/100), nsamples*(c/100)] 
-    value = [-1, 1]
-    dpg.set_value("cloud_center", [indices, value])
-    min_update()
-    max_update()"""
 
 def min_update():
     global cloud_minimum
@@ -124,6 +114,17 @@ def prep_in_display():
     indexes = list(range(0,nsamples))
     return sample_table, indexes
 
+def prep_env_display():
+    sample_table = []
+    for x in range(0, 15):
+        sample_table.append(x/15)
+    for x in range(70):
+        sample_table.append(1)
+    for x in range(1, 16):
+        sample_table.append(1 - (x/16))
+    indexes = list(range(0,100))
+    return sample_table, indexes
+
 def play_input():
     if fname == '':
         dpg.set_value(msg_box, "Message Box: No Input")
@@ -164,24 +165,36 @@ def select_file():
         dpg.set_value(msg_box, "Message Box: File Selection Failed")
 
 def update_envelope(sender, app_data, user_data):
+    sample_table = []
+    indexes = list(range(0,100))
     state, enabled_theme, disabled_theme = user_data
     # Apply the appropriate theme
     dpg.bind_item_theme(sender, enabled_theme)
     if sender == "default":
-        dpg.set_value(env_text,"Envelope type: Default")
+        sample_table, indexes = prep_env_display()
         envelope = 1
     elif sender == "triangle":
-        dpg.set_value(env_text,"Envelope type: Triangle")
+        for x in range(100):
+            if x < 50:
+                sample_table.append(x/50)
+            else:
+                sample_table.append(1 - (x-50)/50)
         envelope = 2
     elif sender == "bell":
-        dpg.set_value(env_text,"Envelope type: Bell")
         envelope = 3
+        for x in range(100):
+            cutoff = math.sin(math.pi*x/100)
+            sample_table.append(cutoff)
     elif sender == "untouched":
-        dpg.set_value(env_text,"Envelope type: Untouched")
         envelope = 4
+        for x in range(100):
+            sample_table.append(2)
     else:
-        dpg.set_value(env_text,"Envelope type: Complex")
         envelope = 5
+        for x in range(100):
+            bell_cutoff = math.sin(math.pi*x/100)
+            sine_cutoff = math.sin(3*math.pi*x/100)
+            sample_table.append(min(bell_cutoff, abs(sine_cutoff)))
 
     for env in envs:
         if sender != env:
@@ -189,6 +202,8 @@ def update_envelope(sender, app_data, user_data):
             dpg.set_item_user_data(env, (False, enabled_theme, disabled_theme,))
         else:
             dpg.set_item_user_data(env, (True, enabled_theme, disabled_theme,))
+    
+    dpg.set_value("e_line", [indexes, sample_table])
 
 def cloud_center():
     global nsamples
@@ -219,7 +234,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
     # BUTTON FOR TESTING/DEBUGGING - CHANGE CALLBACK AT WILL
     # dpg.add_button(tag="temp", label="temp", width=140, callback=update_in_display)
     with dpg.group(horizontal=True):
-        with dpg.group():
+        with dpg.group(width=header_length, tag="control"):
             # Message Box
             msg_box = dpg.add_text("Message Box :")
 
@@ -246,15 +261,26 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
 
             # Envelope specification
             with dpg.collapsing_header(label="Envelope Specifications"):
-                env_text = dpg.add_text("Envelope type: Default")
                 with dpg.group(horizontal=True):
-                    dpg.add_button(tag="default", label="Default", width=150, callback=update_envelope, user_data=(True, enabled, disabled,))
-                with dpg.group(horizontal=True):
-                    dpg.add_button(tag="triangle", label="Triangle", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
-                    dpg.add_button(tag="bell", label="Bell", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
-                with dpg.group(horizontal=True):
-                    dpg.add_button(tag="untouched", label="Untouched", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
-                    dpg.add_button(tag="complex", label="Complex", width=70, callback=update_envelope, user_data=(False, enabled, disabled,))
+                    with dpg.group():
+                        dpg.add_button(tag="default", label="Default", width=190, height=25, callback=update_envelope, user_data=(True, enabled, disabled,))
+                        dpg.add_button(tag="triangle", label="Triangle", width=190, height=25,callback=update_envelope, user_data=(False, enabled, disabled,))
+                        dpg.add_button(tag="bell", label="Bell", width=190, height=25,callback=update_envelope, user_data=(False, enabled, disabled,))
+                        dpg.add_button(tag="untouched", label="Untouched", width=190, height=25,callback=update_envelope, user_data=(False, enabled, disabled,))
+                        dpg.add_button(tag="complex", label="Complex", width=190, height = 25, callback=update_envelope, user_data=(False, enabled, disabled,))
+                    with dpg.plot(label='Envelope', height=142, width=200, tag="e_plot", no_mouse_pos=True):
+                        dpg.add_plot_legend()
+                        samples, indexes = prep_in_display()
+                        dpg.add_plot_axis(dpg.mvXAxis, tag="ex_axis", no_tick_labels=True, no_tick_marks=True)
+                        dpg.set_axis_limits("ex_axis", 0, 100)
+                        dpg.add_plot_axis(dpg.mvYAxis, tag="ey_axis", no_tick_labels=True, no_tick_marks=True)
+                        dpg.set_axis_limits("ey_axis", -0.25, 1.25)
+                        
+                        samples, indexes = prep_env_display()
+                        dpg.add_line_series(indexes, samples,  parent="ex_axis", tag="e_line")
+
+
+
 
             dpg.add_button(tag='synth',label='Synthesize', width = 140, callback = synthesize)
         
@@ -263,7 +289,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
             with dpg.group(horizontal=True):
                 dpg.add_button(tag="resize_in", label="Recenter Graph", width=140, callback=resize_in)
                 dpg.add_button(label="Fit Data", width=140, callback=lambda: dpg.fit_axis_data("y_axis"))
-            with dpg.plot(label='Input Sample', height=-1, width=-1, tag="input_plot"):
+            with dpg.plot(label='Input Sample', height=200, width=800, tag="input_plot"):
                 dpg.add_plot_legend()
 
                 samples, indexes = prep_in_display()
@@ -275,6 +301,8 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
                 dpg.add_line_series([50, 50], [-1, 1], label="Cloud Center", parent="y_axis", tag="cloud_center")
                 dpg.add_line_series([0, 0], [-1, 1], label="Cloud Min", parent="y_axis", tag="cloud_min")
                 dpg.add_line_series([100, 100], [-1, 1], label="Cloud Max", parent="y_axis", tag="cloud_max")
+            
+
 
     while dpg.is_dearpygui_running():
         dpg.render_dearpygui_frame()
