@@ -29,7 +29,8 @@ cloud_minimum = 0
 global cloud_maximum
 cloud_maximum = 100
 
-header_length = 400
+header_length = 430
+button_height = 25
 
 
 # for input file
@@ -128,15 +129,15 @@ def prep_env_display():
 
 def play_input():
     if fname == '':
-        dpg.set_value(msg_box, "Message Box: No Input")
+        dpg.set_value(msg_box, "Error: No Input")
     else: 
         try:
-            dpg.disable_item("input_preview")
             sd.play(input_wav_data, input_wav_fs)
-            sd.wait() 
-            dpg.enable_item("input_preview")
         except:
-            dpg.set_value(msg_box, "Message Box: Input Playback Failure")
+            dpg.set_value(msg_box, "Error: Input Playback Failure")    
+
+def play_output():
+    print("play output")
 
 def save_callback():
     print("Save Clicked")
@@ -164,7 +165,7 @@ def select_file():
         #  update graph display
         update_in_display()
     except:
-        dpg.set_value(msg_box, "Message Box: File Selection Failed")
+        dpg.set_value(msg_box, "Error: File Selection Failed")
 
 def update_envelope(sender, app_data, user_data):
     sample_table = []
@@ -237,16 +238,32 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
     # dpg.add_button(tag="temp", label="temp", width=140, callback=update_in_display)
     with dpg.group(horizontal=True):
         with dpg.child_window(width=header_length, tag="control"):
+
+            dpg.add_button(tag='synth',label='Synthesize', width = 418, height=button_height, callback = synthesize)
+            with dpg.group(horizontal=True):
+                dpg.add_button(label="Play Input", width = 133, height=button_height, callback=play_input, tag = "input_preview")
+                dpg.add_button(label="Play Output", width = 133, height=button_height, callback=play_output)
+                dpg.add_button(label = "Stop Playback", width = 133, height=button_height, callback=sd.stop)
+                    
             # Message Box
-            msg_box = dpg.add_text("Message Box :")
+            with dpg.child_window(height=35):
+                msg_box = dpg.add_text("")
 
             # Input file selection
             with dpg.collapsing_header(label="Input File Selection"):
                 with dpg.group(horizontal=True):
-                    preview_button = dpg.add_button(label="Preview Input", callback=play_input, tag = "input_preview")
                     dpg.add_button(label="Select File", callback=select_file)
-                text = dpg.add_text("File Name: "+fname)
-            
+                    text = dpg.add_text("File Name: "+fname)
+
+            # Output Specification
+            with dpg.collapsing_header(label="Output Specifications"):
+                dpg.add_input_float(label="Output duration (s)", default_value=1, width=200)
+                dpg.add_input_text(width = 200, label="Ouptut File Name", default_value="output_file",)
+                with dpg.group(horizontal=True):
+                    dpg.add_button(label="Select Folder", callback=select_file)
+                    dpg.add_text("Folder Name: ")
+                dpg.add_button(label="Save", width=418, height=button_height)
+
             # Grain specification
             with dpg.collapsing_header(label="Grain Specifications"):
                 dpg.add_input_float(label="Grain Duration (ms)", width=200, default_value=50,tag="grain_dur")
@@ -265,12 +282,12 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
             with dpg.collapsing_header(label="Envelope Specifications"):
                 with dpg.group(horizontal=True):
                     with dpg.group():
-                        dpg.add_button(tag="default", label="Default", width=190, height=25, callback=update_envelope, user_data=(True, enabled, disabled,))
-                        dpg.add_button(tag="triangle", label="Triangle", width=190, height=25,callback=update_envelope, user_data=(False, enabled, disabled,))
-                        dpg.add_button(tag="bell", label="Bell", width=190, height=25,callback=update_envelope, user_data=(False, enabled, disabled,))
-                        dpg.add_button(tag="untouched", label="Untouched", width=190, height=25,callback=update_envelope, user_data=(False, enabled, disabled,))
-                        dpg.add_button(tag="complex", label="Complex", width=190, height = 25, callback=update_envelope, user_data=(False, enabled, disabled,))
-                    with dpg.plot(label='Envelope', height=141, width=185, tag="e_plot", no_mouse_pos=True):
+                        dpg.add_button(tag="default", label="Default", width=190, height=button_height, callback=update_envelope, user_data=(True, enabled, disabled,))
+                        dpg.add_button(tag="triangle", label="Triangle", width=190, height=button_height,callback=update_envelope, user_data=(False, enabled, disabled,))
+                        dpg.add_button(tag="bell", label="Bell", width=190, height=button_height,callback=update_envelope, user_data=(False, enabled, disabled,))
+                        dpg.add_button(tag="untouched", label="Untouched", width=190, height=button_height,callback=update_envelope, user_data=(False, enabled, disabled,))
+                        dpg.add_button(tag="complex", label="Complex", width=190, height = button_height, callback=update_envelope, user_data=(False, enabled, disabled,))
+                    with dpg.plot(label='Envelope', height=141, width=215, tag="e_plot", no_mouse_pos=True):
                         dpg.add_plot_legend()
                         samples, indexes = prep_in_display()
                         dpg.add_plot_axis(dpg.mvXAxis, tag="ex_axis", no_tick_labels=True, no_tick_marks=True)
@@ -284,8 +301,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
 
 
 
-            dpg.add_button(tag='synth',label='Synthesize', width = 140, callback = synthesize)
-        
+            
         with dpg.group():
         # input wave graph
             with dpg.group(horizontal=True):
