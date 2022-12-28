@@ -46,6 +46,10 @@ def resize_in():
     dpg.fit_axis_data("y_axis") 
     dpg.fit_axis_data("x_axis")
 
+def resize_out():
+    dpg.fit_axis_data("oy_axis") 
+    dpg.fit_axis_data("ox_axis")
+
 def update_in_display():
     global nsamples
     global input_wav_data
@@ -87,6 +91,10 @@ def synthesize():
         5: gs.Envelope.COMPLEX
     }
 
+    if fname == '': 
+        dpg.set_value(msg_box, "Error: No Input File")
+        return
+
     output = gs.synthesizeGranularly(fname,sample_table,5,switch.get(envelope,gs.Envelope.TRAPEZIUM),gs.Selection.NORMAL,
     dpg.get_value("grain_dur"),dpg.get_value("grain_dur_var"),5,0,0.5,0.5,int(nsamples*(dpg.get_value("center_slider")/100)),cloud_minimum,cloud_maximum,44100)
     
@@ -105,7 +113,7 @@ def synthesize():
     # output fname
 
 # initial input graph display  
-def prep_in_display():
+def prep_display():
     global nsamples
     global input_wav_data
     sample_table = []
@@ -129,7 +137,7 @@ def prep_env_display():
 
 def play_input():
     if fname == '':
-        dpg.set_value(msg_box, "Error: No Input")
+        dpg.set_value(msg_box, "Error: No Input File")
     else: 
         try:
             sd.play(input_wav_data, input_wav_fs)
@@ -256,9 +264,9 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
                     text = dpg.add_text("File Name: "+fname)
 
             # Output Specification
-            with dpg.collapsing_header(label="Output Specifications"):
+            with dpg.collapsing_header(label="Save Output"):
                 dpg.add_input_float(label="Output duration (s)", default_value=1, width=200)
-                dpg.add_input_text(width = 200, label="Ouptut File Name", default_value="output_file",)
+                dpg.add_input_text(width = 200, label="Ouptut File Name", default_value="output_file")
                 with dpg.group(horizontal=True):
                     dpg.add_button(label="Select Folder", callback=select_file)
                     dpg.add_text("Folder Name: ")
@@ -268,6 +276,10 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
             with dpg.collapsing_header(label="Grain Specifications"):
                 dpg.add_input_float(label="Grain Duration (ms)", width=200, default_value=50,tag="grain_dur")
                 dpg.add_slider_float(label="Grain Duration Variation (%)",width=200, default_value=0, max_value = 100, tag="grain_dur_var")
+
+            with dpg.collapsing_header(label="Pitch Change Specifications"):
+                dpg.add_slider_float(label="Pitch Adjustment (1 for no change)",min_value=0.001, max_value=2, width=160, default_value=1,tag="grain_pitch")
+                dpg.add_slider_float(label="Pitch Variation (%)",width=200, default_value=0, max_value = 100, tag="grain_pitch_var")
                 
             # Cloud specification
             with dpg.collapsing_header(label="Cloud Specifications"):
@@ -289,7 +301,6 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
                         dpg.add_button(tag="complex", label="Complex", width=190, height = button_height, callback=update_envelope, user_data=(False, enabled, disabled,))
                     with dpg.plot(label='Envelope', height=141, width=215, tag="e_plot", no_mouse_pos=True):
                         dpg.add_plot_legend()
-                        samples, indexes = prep_in_display()
                         dpg.add_plot_axis(dpg.mvXAxis, tag="ex_axis", no_tick_labels=True, no_tick_marks=True)
                         dpg.set_axis_limits("ex_axis", 0, 100)
                         dpg.add_plot_axis(dpg.mvYAxis, tag="ey_axis", no_tick_labels=True, no_tick_marks=True)
@@ -298,28 +309,41 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
                         samples, indexes = prep_env_display()
                         dpg.add_line_series(indexes, samples,  parent="ex_axis", tag="e_line")
 
-
-
-
-            
         with dpg.group():
-        # input wave graph
-            with dpg.group(horizontal=True):
-                dpg.add_button(tag="resize_in", label="Recenter Graph", width=140, callback=resize_in)
-                dpg.add_button(label="Fit Data", width=140, callback=lambda: dpg.fit_axis_data("y_axis"))
-            with dpg.plot(label='Input Sample', height=200, width=-1, tag="input_plot"):
-                dpg.add_plot_legend()
+            # input wave graph
+            with dpg.child_window(height = 343):
+                with dpg.group(horizontal=True):
+                    dpg.add_button(tag="resize_in", label="Recenter Graph", width=140, callback=resize_in)
+                    dpg.add_button(label="Fit Data", width=140, callback=lambda: dpg.fit_axis_data("y_axis"))
+                with dpg.plot(no_mouse_pos=True, label='Input Sample', height=-1, width=-1, tag="input_plot"):
+                    dpg.add_plot_legend()
 
-                samples, indexes = prep_in_display()
-                dpg.add_plot_axis(dpg.mvXAxis, label="Time", tag="x_axis")
-                dpg.add_plot_axis(dpg.mvYAxis, label="Amplitude", tag="y_axis")
+                    samples, indexes = prep_display()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="Time", tag="x_axis")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="Amplitude", tag="y_axis")
 
-                dpg.add_line_series(indexes, samples, label="Audio Sample", parent="x_axis", tag="input_line")
-                
-                dpg.add_line_series([50, 50], [-1, 1], label="Cloud Center", parent="y_axis", tag="cloud_center")
-                dpg.add_line_series([0, 0], [-1, 1], label="Cloud Min", parent="y_axis", tag="cloud_min")
-                dpg.add_line_series([100, 100], [-1, 1], label="Cloud Max", parent="y_axis", tag="cloud_max")
+                    dpg.add_line_series(indexes, samples, label="Audio Sample", parent="x_axis", tag="input_line")
+                    
+                    dpg.add_line_series([50, 50], [-1, 1], label="Cloud Center", parent="y_axis", tag="cloud_center")
+                    dpg.add_line_series([0, 0], [-1, 1], label="Cloud Min", parent="y_axis", tag="cloud_min")
+                    dpg.add_line_series([100, 100], [-1, 1], label="Cloud Max", parent="y_axis", tag="cloud_max")
             
+            with dpg.child_window(height = 343):
+                # output wave graph
+                with dpg.group(horizontal=True):
+                    dpg.add_button(tag="resize_out", label="Recenter Graph", width=140, callback=resize_out)
+                    dpg.add_button(label="Fit Data", width=140, callback=lambda: dpg.fit_axis_data("oy_axis"))
+                with dpg.plot(no_mouse_pos=True, label='Output Sample', height=-1, width=-1, tag="output_plot"):
+                    dpg.add_plot_legend()
+
+                    samples, indexes = prep_display()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="Time", tag="ox_axis")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="Amplitude", tag="oy_axis")
+
+                    dpg.add_line_series(indexes, samples, label="Audio Sample", parent="ox_axis", tag="output_line")
+                    
+                
+
 
 
     while dpg.is_dearpygui_running():
@@ -328,7 +352,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
 dpg.bind_item_theme("default", enabled)
 # Update the user_data associated with the button
 
-dpg.create_viewport(title='Granular Synthesis', width=1200, height=550)
+dpg.create_viewport(title='Granular Synthesis', width=1200, height=750)
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.set_primary_window("GS", True)
