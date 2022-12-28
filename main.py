@@ -3,11 +3,6 @@ from tkinter import filedialog as fd    # for file selection
 import sounddevice as sd                # to play .wav files
 import soundfile as sf                  # to play .wav files
 import math
-import time
-import collections
-import threading
-import pdb
-import wave
 import numpy as np
 import granularSynthesis as gs
 
@@ -17,7 +12,8 @@ import granularSynthesis as gs
 # for input file name
 global fname
 fname = ''
-global text
+global pathname
+pathname = ''
 global buttons
 
 #for the graph of input audio output
@@ -138,16 +134,6 @@ def synthesize():
 
     dpg.set_value(msg_box, "Output Generated")
     enable_buttons()
-    
-    #print("Saving sample")
-    #gs.write_sample(output, "data\im_output.txt")
-
-    #this will eventually call the granularSynthesis code with the provided parameters
-    #parameters not yet added to the gui are hardcoded into the call
-    #Once we've added all parameters we want we can modify this function to not just
-    #save the output but present it on a graph or whatever else
-    #Variables still to add:
-    # output fname
 
 # initial input graph display  
 def prep_display():
@@ -191,13 +177,25 @@ def play_output():
             dpg.set_value(msg_box, "Error: Output Playback Failure")  
 
 def save_callback():
-    if output_wav_data == None:
+    if output_wav_data.size == 0: 
         dpg.set_value(msg_box, "Error: No Ouput to Save")
+        return
+    if pathname == '':
+        dpg.set_value(msg_box, "Error: No File Path Selected")
+        return
+    f = dpg.get_value("out_name").strip()
+    if f == "":
+        dpg.set_value(msg_box, "Error: No Output File Name")
+        return
+    
+    try: 
+        temp = pathname + "/" + f + ".wav"
+        sf.write(temp, output_wav_data, input_wav_fs)
+        dpg.set_value(msg_box,  f + ".wav Saved")
+    except:
+        dpg.set_value(msg_box, "Error: Save Output Failure")  
+    
 
-def callback(sender, app_data):
-    print('OK was clicked.')
-    print("Sender: ", sender)
-    print("App Data: ", app_data)
 
 def cancel_callback(sender, app_data):
     print('Cancel was clicked.')
@@ -218,6 +216,14 @@ def select_file():
         update_in_display()
     except:
         dpg.set_value(msg_box, "Error: File Selection Failed")
+
+def select_file_path():
+    global pathname
+    try: 
+        pathname = fd.askdirectory()
+        dpg.set_value(file_text, "Folder Name: " + pathname.split("/").pop())
+    except:
+        dpg.set_value(msg_box, "Error: Path Selection Failed")
 
 def update_envelope(sender, app_data, user_data):
     sample_table = []
@@ -286,8 +292,6 @@ with dpg.theme() as disabled:
         dpg.add_theme_color(dpg.mvThemeCol_Button,(51,51,55), category=dpg.mvThemeCat_Core)
 
 with dpg.window(tag="GS", label="GS", width=800, height=300):
-    # BUTTON FOR TESTING/DEBUGGING - CHANGE CALLBACK AT WILL
-    # dpg.add_button(tag="temp", label="temp", width=140, callback=update_in_display)
     with dpg.group(horizontal=True):
         with dpg.child_window(width=header_length, tag="control"):
 
@@ -310,10 +314,10 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
             # Output Specification
             with dpg.collapsing_header(label="Output Specifications"):
                 dpg.add_input_float(label="Output Duration (s)", default_value=1, width=200, tag="out_dur")
-                dpg.add_input_text(width = 200, label="Ouptut File Name", default_value="output_file")
+                dpg.add_input_text(width = 200, label="Ouptut File Name", default_value="output_file", tag="out_name")
                 with dpg.group(horizontal=True):
-                    dpg.add_button(label="Select Folder", callback=select_file)
-                    dpg.add_text("Folder Name: ")
+                    dpg.add_button(label="Select Folder", callback=select_file_path)
+                    file_text = dpg.add_text("Folder Name: ")
                 dpg.add_button(label="Save", width=418, height=button_height, callback = save_callback)
 
             # Grain specification
