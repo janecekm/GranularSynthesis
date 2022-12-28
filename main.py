@@ -234,7 +234,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
     # BUTTON FOR TESTING/DEBUGGING - CHANGE CALLBACK AT WILL
     # dpg.add_button(tag="temp", label="temp", width=140, callback=update_in_display)
     with dpg.group(horizontal=True):
-        with dpg.group(width=header_length, tag="control"):
+        with dpg.child_window(width=header_length, tag="control"):
             # Message Box
             msg_box = dpg.add_text("Message Box :")
 
@@ -289,7 +289,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
             with dpg.group(horizontal=True):
                 dpg.add_button(tag="resize_in", label="Recenter Graph", width=140, callback=resize_in)
                 dpg.add_button(label="Fit Data", width=140, callback=lambda: dpg.fit_axis_data("y_axis"))
-            with dpg.plot(label='Input Sample', height=200, width=800, tag="input_plot"):
+            with dpg.plot(label='Input Sample', height=200, width=-1, tag="input_plot"):
                 dpg.add_plot_legend()
 
                 samples, indexes = prep_in_display()
