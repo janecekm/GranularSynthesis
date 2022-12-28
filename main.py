@@ -123,7 +123,7 @@ def synthesize():
     output = gs.synthesizeGranularly(fname, input_wav_data, dpg.get_value("out_dur"), switch.get(envelope,gs.Envelope.TRAPEZIUM),
     gs.Selection.NORMAL, dpg.get_value("grain_dur"), dpg.get_value("grain_dur_var"),
     dpg.get_value("cloud_density"),dpg.get_value("cloud_density_var"),
-    dpg.get_value("grain_pitch"),dpg.get_value("grain_pitch_var"), int(nsamples*(dpg.get_value("center_slider")/100)), cloud_minimum, cloud_maximum, 44100)
+    dpg.get_value("grain_pitch"),dpg.get_value("grain_pitch_var"), int(nsamples*(dpg.get_value("center_slider")/100)), cloud_minimum, cloud_maximum, input_wav_fs)
 
     global output_wav_data
     output_wav_data = np.array(output)
@@ -147,8 +147,6 @@ def synthesize():
     #Once we've added all parameters we want we can modify this function to not just
     #save the output but present it on a graph or whatever else
     #Variables still to add:
-    # grain_pitch & grain_pitch_var
-    # sample_rate
     # output fname
 
 # initial input graph display  
@@ -186,7 +184,11 @@ def play_input():
 def play_output():
     if output_wav_data.size == 0: 
         dpg.set_value(msg_box, "Error: No Output to Play")   
-    print("play output")
+    else:
+        try:
+            sd.play(output_wav_data, input_wav_fs)
+        except:
+            dpg.set_value(msg_box, "Error: Output Playback Failure")  
 
 def save_callback():
     if output_wav_data == None:
@@ -325,7 +327,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
                 
             # Cloud specification
             with dpg.collapsing_header(label="Cloud Specifications"):
-                dpg.add_input_float(tag="cloud_density", label="Cloud Density (ms/sec)", width=200, default_value=50)
+                dpg.add_input_float(tag="cloud_density", label="Cloud Density (ms/sec)", width=200, default_value=5)
                 dpg.add_slider_float(tag="cloud_density_var", label="Cloud Density Variation (%)",width=200, default_value=0, max_value = 100)
 
                 dpg.add_slider_float(label="Cloud Center (% of input)", default_value=50, min_value = 1, max_value=99, width=200, callback=cloud_center, tag="center_slider")
