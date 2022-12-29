@@ -12,7 +12,7 @@ import sounddevice as sd                # to play .wav files
 import soundfile as sf                  # to play .wav files
 import math
 import numpy as np
-import granularSynthesis as gs
+import synthesis.granularSynthesis as gs
 
 # GUI documentation:    https://dearpygui.readthedocs.io/en/latest/index.html
 # File Selection:       https://dearpygui.readthedocs.io/en/latest/documentation/file-directory-selector.html
@@ -103,7 +103,6 @@ def enable_buttons():
 def synthesize():
     disable_buttons()
     dpg.set_value(msg_box, "Generating Output...")
-    print("time to synthesize!")
     switch = {
         2: gs.Envelope.TRIANGLE,
         3: gs.Envelope.BELL,

@@ -152,7 +152,6 @@ imports:
  &#8226;   <a href="#fnmatch">fnmatch</a>
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#genericpath">genericpath</a>
- &#8226;   <a href="#granularSynthesis">granularSynthesis</a>
  &#8226;   <a href="#heapq">heapq</a>
  &#8226;   <a href="#io">io</a>
  &#8226;   <a href="#keyword">keyword</a>
@@ -180,6 +179,7 @@ imports:
  &#8226;   <a href="#sre_constants">sre_constants</a>
  &#8226;   <a href="#sre_parse">sre_parse</a>
  &#8226;   <a href="#stat">stat</a>
+ &#8226;   <a href="#synthesis.granularSynthesis">synthesis.granularSynthesis</a>
  &#8226;   <a href="#tkinter">tkinter</a>
  &#8226;   <a href="#tkinter.filedialog">tkinter.filedialog</a>
  &#8226;   <a href="#token">token</a>
@@ -346,28 +346,6 @@ imported by:
 </div>
 
 <div class="node">
-  <a name="'IPython.display'"></a>
-  <a target="code" href="" type="text/plain"><tt>'IPython.display'</tt></a>
-<span class="moduletype">MissingModule</span>  <div class="import">
-imported by:
-    <a href="#tqdm.notebook">tqdm.notebook</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="'IPython.html'"></a>
-  <a target="code" href="" type="text/plain"><tt>'IPython.html'</tt></a>
-<span class="moduletype">MissingModule</span>  <div class="import">
-imported by:
-    <a href="#tqdm.notebook">tqdm.notebook</a>
-
-  </div>
-
-</div>
-
-<div class="node">
   <a name="'com.sun'"></a>
   <a target="code" href="" type="text/plain"><tt>'com.sun'</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
@@ -428,19 +406,8 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>'org.python'</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#pickle">pickle</a>
+    <a href="#copy">copy</a>
  &#8226;   <a href="#xml.sax">xml.sax</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="'pandas.core'"></a>
-  <a target="code" href="" type="text/plain"><tt>'pandas.core'</tt></a>
-<span class="moduletype">MissingModule</span>  <div class="import">
-imported by:
-    <a href="#tqdm.std">tqdm.std</a>
 
   </div>
 
@@ -2707,9 +2674,6 @@ imported by:
  &#8226;   <a href="#setuptools._vendor.tomli._parser">setuptools._vendor.tomli._parser</a>
  &#8226;   <a href="#setuptools._vendor.tomli._re">setuptools._vendor.tomli._re</a>
  &#8226;   <a href="#six">six</a>
- &#8226;   <a href="#tqdm.gui">tqdm.gui</a>
- &#8226;   <a href="#tqdm.notebook">tqdm.notebook</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
 
   </div>
 
@@ -3964,7 +3928,6 @@ imported by:
  &#8226;   <a href="#multiprocessing.reduction">multiprocessing.reduction</a>
  &#8226;   <a href="#pkg_resources._vendor.appdirs">pkg_resources._vendor.appdirs</a>
  &#8226;   <a href="#socket">socket</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
 
   </div>
 
@@ -3993,7 +3956,6 @@ imported by:
  &#8226;   <a href="#numpy.lib.utils">numpy.lib.utils</a>
  &#8226;   <a href="#numpy.matrixlib.defmatrix">numpy.matrixlib.defmatrix</a>
  &#8226;   <a href="#setuptools.config.expand">setuptools.config.expand</a>
- &#8226;   <a href="#tqdm.cli">tqdm.cli</a>
 
   </div>
 
@@ -4889,7 +4851,6 @@ imported by:
   <tt>atexit</tt> <span class="moduletype"><i>(builtin module)</i></span>  <div class="import">
 imported by:
     <a href="#PIL.Image">PIL.Image</a>
- &#8226;   <a href="#colorama.initialise">colorama.initialise</a>
  &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#matplotlib">matplotlib</a>
  &#8226;   <a href="#matplotlib._pylab_helpers">matplotlib._pylab_helpers</a>
@@ -4898,7 +4859,6 @@ imported by:
  &#8226;   <a href="#rlcompleter">rlcompleter</a>
  &#8226;   <a href="#site">site</a>
  &#8226;   <a href="#sounddevice">sounddevice</a>
- &#8226;   <a href="#tqdm._monitor">tqdm._monitor</a>
  &#8226;   <a href="#weakref">weakref</a>
 
   </div>
@@ -5565,7 +5525,6 @@ imports:
 imported by:
     <a href="#distutils.config">distutils.config</a>
  &#8226;   <a href="#setuptools._distutils.config">setuptools._distutils.config</a>
- &#8226;   <a href="#tqdm.notebook">tqdm.notebook</a>
 
   </div>
 
@@ -5903,8 +5862,6 @@ imported by:
  &#8226;   <a href="#string">string</a>
  &#8226;   <a href="#threading">threading</a>
  &#8226;   <a href="#tokenize">tokenize</a>
- &#8226;   <a href="#tqdm.gui">tqdm.gui</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
  &#8226;   <a href="#traceback">traceback</a>
  &#8226;   <a href="#typing">typing</a>
  &#8226;   <a href="#typing_extensions">typing_extensions</a>
@@ -6013,129 +5970,6 @@ imported by:
  &#8226;   <a href="#tracemalloc">tracemalloc</a>
  &#8226;   <a href="#typing">typing</a>
  &#8226;   <a href="#typing_extensions">typing_extensions</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="colorama"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/colorama/__init__.py" type="text/plain"><tt>colorama</tt></a>
-<span class="moduletype">Package</span>  <div class="import">
-imports:
-    <a href="#colorama">colorama</a>
- &#8226;   <a href="#colorama.ansi">colorama.ansi</a>
- &#8226;   <a href="#colorama.ansitowin32">colorama.ansitowin32</a>
- &#8226;   <a href="#colorama.initialise">colorama.initialise</a>
- &#8226;   <a href="#colorama.win32">colorama.win32</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#colorama">colorama</a>
- &#8226;   <a href="#colorama.ansi">colorama.ansi</a>
- &#8226;   <a href="#colorama.ansitowin32">colorama.ansitowin32</a>
- &#8226;   <a href="#colorama.initialise">colorama.initialise</a>
- &#8226;   <a href="#colorama.win32">colorama.win32</a>
- &#8226;   <a href="#colorama.winterm">colorama.winterm</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="colorama.ansi"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/colorama/ansi.py" type="text/plain"><tt>colorama.ansi</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#colorama">colorama</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#colorama">colorama</a>
- &#8226;   <a href="#colorama.ansitowin32">colorama.ansitowin32</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="colorama.ansitowin32"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/colorama/ansitowin32.py" type="text/plain"><tt>colorama.ansitowin32</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#colorama">colorama</a>
- &#8226;   <a href="#colorama.ansi">colorama.ansi</a>
- &#8226;   <a href="#colorama.win32">colorama.win32</a>
- &#8226;   <a href="#colorama.winterm">colorama.winterm</a>
- &#8226;   <a href="#os">os</a>
- &#8226;   <a href="#re">re</a>
- &#8226;   <a href="#sys">sys</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#colorama">colorama</a>
- &#8226;   <a href="#colorama.initialise">colorama.initialise</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="colorama.initialise"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/colorama/initialise.py" type="text/plain"><tt>colorama.initialise</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#atexit">atexit</a>
- &#8226;   <a href="#colorama">colorama</a>
- &#8226;   <a href="#colorama.ansitowin32">colorama.ansitowin32</a>
- &#8226;   <a href="#contextlib">contextlib</a>
- &#8226;   <a href="#sys">sys</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#colorama">colorama</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="colorama.win32"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/colorama/win32.py" type="text/plain"><tt>colorama.win32</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#colorama">colorama</a>
- &#8226;   <a href="#ctypes">ctypes</a>
- &#8226;   <a href="#ctypes.wintypes">ctypes.wintypes</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#colorama">colorama</a>
- &#8226;   <a href="#colorama.ansitowin32">colorama.ansitowin32</a>
- &#8226;   <a href="#colorama.winterm">colorama.winterm</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="colorama.winterm"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/colorama/winterm.py" type="text/plain"><tt>colorama.winterm</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#colorama">colorama</a>
- &#8226;   <a href="#colorama.win32">colorama.win32</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#colorama.ansitowin32">colorama.ansitowin32</a>
 
   </div>
 
@@ -6324,7 +6158,6 @@ imported by:
  &#8226;   <a href="#_threading_local">_threading_local</a>
  &#8226;   <a href="#ast">ast</a>
  &#8226;   <a href="#asyncio.staggered">asyncio.staggered</a>
- &#8226;   <a href="#colorama.initialise">colorama.initialise</a>
  &#8226;   <a href="#dateutil.tz.tz">dateutil.tz.tz</a>
  &#8226;   <a href="#dearpygui.dearpygui">dearpygui.dearpygui</a>
  &#8226;   <a href="#distutils.command.build_ext">distutils.command.build_ext</a>
@@ -6394,7 +6227,6 @@ imported by:
  &#8226;   <a href="#setuptools.msvc">setuptools.msvc</a>
  &#8226;   <a href="#setuptools.wheel">setuptools.wheel</a>
  &#8226;   <a href="#subprocess">subprocess</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
  &#8226;   <a href="#typing">typing</a>
  &#8226;   <a href="#unittest.case">unittest.case</a>
  &#8226;   <a href="#unittest.mock">unittest.mock</a>
@@ -6520,8 +6352,8 @@ imported by:
   <a target="code" href="///C:/Program%20Files/WindowsApps/PythonSoftwareFoundation.Python.3.10_3.10.2544.0_x64__qbz5n2kfra8p0/lib/copy.py" type="text/plain"><tt>copy</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#copyreg">copyreg</a>
- &#8226;   <a href="#org">org</a>
+    <a href="#'org.python'">'org.python'</a>
+ &#8226;   <a href="#copyreg">copyreg</a>
  &#8226;   <a href="#types">types</a>
  &#8226;   <a href="#weakref">weakref</a>
 
@@ -6639,8 +6471,7 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#colorama.win32">colorama.win32</a>
- &#8226;   <a href="#ctypes._aix">ctypes._aix</a>
+    <a href="#ctypes._aix">ctypes._aix</a>
  &#8226;   <a href="#ctypes._endian">ctypes._endian</a>
  &#8226;   <a href="#ctypes.macholib">ctypes.macholib</a>
  &#8226;   <a href="#ctypes.util">ctypes.util</a>
@@ -6659,7 +6490,6 @@ imported by:
  &#8226;   <a href="#scipy.stats._continuous_distns">scipy.stats._continuous_distns</a>
  &#8226;   <a href="#setuptools._vendor.packaging._manylinux">setuptools._vendor.packaging._manylinux</a>
  &#8226;   <a href="#setuptools.windows_support">setuptools.windows_support</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
 
   </div>
 
@@ -6813,8 +6643,7 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#colorama.win32">colorama.win32</a>
- &#8226;   <a href="#ctypes">ctypes</a>
+    <a href="#ctypes">ctypes</a>
  &#8226;   <a href="#dateutil.tz.win">dateutil.tz.win</a>
 
   </div>
@@ -6912,7 +6741,6 @@ imported by:
  &#8226;   <a href="#pyparsing.common">pyparsing.common</a>
  &#8226;   <a href="#setuptools._vendor.pyparsing.common">setuptools._vendor.pyparsing.common</a>
  &#8226;   <a href="#setuptools._vendor.tomli._re">setuptools._vendor.tomli._re</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
  &#8226;   <a href="#xmlrpc.client">xmlrpc.client</a>
 
   </div>
@@ -11583,7 +11411,6 @@ imported by:
  &#8226;   <a href="#PIL.PngImagePlugin">PIL.PngImagePlugin</a>
  &#8226;   <a href="#ast">ast</a>
  &#8226;   <a href="#asyncio.constants">asyncio.constants</a>
- &#8226;   <a href="#granularSynthesis">granularSynthesis</a>
  &#8226;   <a href="#http">http</a>
  &#8226;   <a href="#inspect">inspect</a>
  &#8226;   <a href="#main.py">main.py</a>
@@ -11604,6 +11431,7 @@ imported by:
  &#8226;   <a href="#signal">signal</a>
  &#8226;   <a href="#socket">socket</a>
  &#8226;   <a href="#ssl">ssl</a>
+ &#8226;   <a href="#synthesis.granularSynthesis">synthesis.granularSynthesis</a>
  &#8226;   <a href="#tkinter">tkinter</a>
  &#8226;   <a href="#uuid">uuid</a>
 
@@ -11648,7 +11476,6 @@ imported by:
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
     <a href="#subprocess">subprocess</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
 
   </div>
 
@@ -11913,7 +11740,6 @@ imported by:
  &#8226;   <a href="#tempfile">tempfile</a>
  &#8226;   <a href="#threading">threading</a>
  &#8226;   <a href="#tokenize">tokenize</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
  &#8226;   <a href="#tracemalloc">tracemalloc</a>
  &#8226;   <a href="#types">types</a>
  &#8226;   <a href="#typing">typing</a>
@@ -12086,26 +11912,6 @@ imported by:
 </div>
 
 <div class="node">
-  <a name="granularSynthesis"></a>
-  <a target="code" href="///C:/Users/madel/OneDrive/Documents/GitHub/GranularSynthesis/granularSynthesis.py" type="text/plain"><tt>granularSynthesis</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#enum">enum</a>
- &#8226;   <a href="#math">math</a>
- &#8226;   <a href="#random">random</a>
- &#8226;   <a href="#scipy.stats">scipy.stats</a>
- &#8226;   <a href="#tqdm">tqdm</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#main.py">main.py</a>
-
-  </div>
-
-</div>
-
-<div class="node">
   <a name="grp"></a>
   <a target="code" href="" type="text/plain"><tt>grp</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
@@ -12238,7 +12044,6 @@ imported by:
     <a href="#cgi">cgi</a>
  &#8226;   <a href="#html.entities">html.entities</a>
  &#8226;   <a href="#http.server">http.server</a>
- &#8226;   <a href="#tqdm.notebook">tqdm.notebook</a>
 
   </div>
 
@@ -12459,7 +12264,6 @@ imported by:
  &#8226;   <a href="#setuptools.config.expand">setuptools.config.expand</a>
  &#8226;   <a href="#setuptools.monkey">setuptools.monkey</a>
  &#8226;   <a href="#setuptools.py34compat">setuptools.py34compat</a>
- &#8226;   <a href="#tqdm.cli">tqdm.cli</a>
 
   </div>
 
@@ -12854,7 +12658,6 @@ imported by:
  &#8226;   <a href="#pkg_resources._vendor.jaraco.text">pkg_resources._vendor.jaraco.text</a>
  &#8226;   <a href="#setuptools._importlib">setuptools._importlib</a>
  &#8226;   <a href="#setuptools._vendor.jaraco.text">setuptools._vendor.jaraco.text</a>
- &#8226;   <a href="#tqdm.cli">tqdm.cli</a>
 
   </div>
 
@@ -12908,17 +12711,6 @@ imported by:
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
     <a href="#setuptools._importlib">setuptools._importlib</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="importlib_resources"></a>
-  <a target="code" href="" type="text/plain"><tt>importlib_resources</tt></a>
-<span class="moduletype">MissingModule</span>  <div class="import">
-imported by:
-    <a href="#tqdm.cli">tqdm.cli</a>
 
   </div>
 
@@ -13139,17 +12931,6 @@ imported by:
  &#8226;   <a href="#xml.sax.saxutils">xml.sax.saxutils</a>
  &#8226;   <a href="#xmlrpc.client">xmlrpc.client</a>
  &#8226;   <a href="#zipfile">zipfile</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="ipywidgets"></a>
-  <a target="code" href="" type="text/plain"><tt>ipywidgets</tt></a>
-<span class="moduletype">MissingModule</span>  <div class="import">
-imported by:
-    <a href="#tqdm.notebook">tqdm.notebook</a>
 
   </div>
 
@@ -13576,7 +13357,6 @@ imported by:
  &#8226;   <a href="#setuptools.config._validate_pyproject.formats">setuptools.config._validate_pyproject.formats</a>
  &#8226;   <a href="#setuptools.config.pyprojecttoml">setuptools.config.pyprojecttoml</a>
  &#8226;   <a href="#setuptools.logging">setuptools.logging</a>
- &#8226;   <a href="#tqdm.cli">tqdm.cli</a>
  &#8226;   <a href="#unittest._log">unittest._log</a>
 
   </div>
@@ -13639,7 +13419,6 @@ imported by:
  &#8226;   <a href="#dateutil.relativedelta">dateutil.relativedelta</a>
  &#8226;   <a href="#dateutil.rrule">dateutil.rrule</a>
  &#8226;   <a href="#fractions">fractions</a>
- &#8226;   <a href="#granularSynthesis">granularSynthesis</a>
  &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#matplotlib._api.deprecation">matplotlib._api.deprecation</a>
  &#8226;   <a href="#matplotlib.axes._axes">matplotlib.axes._axes</a>
@@ -13689,6 +13468,7 @@ imported by:
  &#8226;   <a href="#selectors">selectors</a>
  &#8226;   <a href="#setuptools._vendor.more_itertools.more">setuptools._vendor.more_itertools.more</a>
  &#8226;   <a href="#statistics">statistics</a>
+ &#8226;   <a href="#synthesis.granularSynthesis">synthesis.granularSynthesis</a>
 
   </div>
 
@@ -13866,7 +13646,6 @@ imported by:
  &#8226;   <a href="#mpl_toolkits.mplot3d.axes3d">mpl_toolkits.mplot3d.axes3d</a>
  &#8226;   <a href="#mpl_toolkits.mplot3d.axis3d">mpl_toolkits.mplot3d.axis3d</a>
  &#8226;   <a href="#scipy.optimize._shgo_lib.triangulation">scipy.optimize._shgo_lib.triangulation</a>
- &#8226;   <a href="#tqdm.gui">tqdm.gui</a>
 
   </div>
 
@@ -16201,7 +15980,6 @@ imported by:
  &#8226;   <a href="#scipy.optimize._shgo_lib.triangulation">scipy.optimize._shgo_lib.triangulation</a>
  &#8226;   <a href="#scipy.spatial._plotutils">scipy.spatial._plotutils</a>
  &#8226;   <a href="#scipy.stats._fit">scipy.stats._fit</a>
- &#8226;   <a href="#tqdm.gui">tqdm.gui</a>
 
   </div>
 
@@ -17127,7 +16905,6 @@ imports:
  &#8226;   <a href="#multiprocessing.AuthenticationError">multiprocessing.AuthenticationError</a>
  &#8226;   <a href="#multiprocessing.BufferTooShort">multiprocessing.BufferTooShort</a>
  &#8226;   <a href="#multiprocessing.Pool">multiprocessing.Pool</a>
- &#8226;   <a href="#multiprocessing.RLock">multiprocessing.RLock</a>
  &#8226;   <a href="#multiprocessing.TimeoutError">multiprocessing.TimeoutError</a>
  &#8226;   <a href="#multiprocessing.connection">multiprocessing.connection</a>
  &#8226;   <a href="#multiprocessing.context">multiprocessing.context</a>
@@ -17173,7 +16950,6 @@ imported by:
  &#8226;   <a href="#multiprocessing.util">multiprocessing.util</a>
  &#8226;   <a href="#pyi_rth_multiprocessing.py">pyi_rth_multiprocessing.py</a>
  &#8226;   <a href="#scipy._lib._util">scipy._lib._util</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
 
   </div>
 
@@ -17210,18 +16986,6 @@ imported by:
 imported by:
     <a href="#multiprocessing">multiprocessing</a>
  &#8226;   <a href="#scipy._lib._util">scipy._lib._util</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="multiprocessing.RLock"></a>
-  <a target="code" href="" type="text/plain"><tt>multiprocessing.RLock</tt></a>
-<span class="moduletype">MissingModule</span>  <div class="import">
-imported by:
-    <a href="#multiprocessing">multiprocessing</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
 
   </div>
 
@@ -18094,7 +17858,6 @@ imported by:
  &#8226;   <a href="#scipy.stats._qmc">scipy.stats._qmc</a>
  &#8226;   <a href="#setuptools.dist">setuptools.dist</a>
  &#8226;   <a href="#statistics">statistics</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
 
   </div>
 
@@ -23699,7 +23462,7 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>org</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#copy">copy</a>
+    <a href="#pickle">pickle</a>
 
   </div>
 
@@ -23767,7 +23530,6 @@ imported by:
  &#8226;   <a href="#cffi.vengine_gen">cffi.vengine_gen</a>
  &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
  &#8226;   <a href="#cgi">cgi</a>
- &#8226;   <a href="#colorama.ansitowin32">colorama.ansitowin32</a>
  &#8226;   <a href="#concurrent.futures.process">concurrent.futures.process</a>
  &#8226;   <a href="#concurrent.futures.thread">concurrent.futures.thread</a>
  &#8226;   <a href="#configparser">configparser</a>
@@ -23991,8 +23753,6 @@ imported by:
  &#8226;   <a href="#threading">threading</a>
  &#8226;   <a href="#tkinter">tkinter</a>
  &#8226;   <a href="#tkinter.filedialog">tkinter.filedialog</a>
- &#8226;   <a href="#tqdm.cli">tqdm.cli</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
  &#8226;   <a href="#unittest.loader">unittest.loader</a>
  &#8226;   <a href="#unittest.main">unittest.main</a>
  &#8226;   <a href="#urllib.request">urllib.request</a>
@@ -24279,17 +24039,6 @@ imported by:
 </div>
 
 <div class="node">
-  <a name="pandas"></a>
-  <a target="code" href="" type="text/plain"><tt>pandas</tt></a>
-<span class="moduletype">MissingModule</span>  <div class="import">
-imported by:
-    <a href="#tqdm.std">tqdm.std</a>
-
-  </div>
-
-</div>
-
-<div class="node">
   <a name="pathlib"></a>
   <a target="code" href="///C:/Program%20Files/WindowsApps/PythonSoftwareFoundation.Python.3.10_3.10.2544.0_x64__qbz5n2kfra8p0/lib/pathlib.py" type="text/plain"><tt>pathlib</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -24415,14 +24164,14 @@ imported by:
   <a target="code" href="///C:/Program%20Files/WindowsApps/PythonSoftwareFoundation.Python.3.10_3.10.2544.0_x64__qbz5n2kfra8p0/lib/pickle.py" type="text/plain"><tt>pickle</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#'org.python'">'org.python'</a>
- &#8226;   <a href="#_compat_pickle">_compat_pickle</a>
+    <a href="#_compat_pickle">_compat_pickle</a>
  &#8226;   <a href="#_pickle">_pickle</a>
  &#8226;   <a href="#codecs">codecs</a>
  &#8226;   <a href="#copyreg">copyreg</a>
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#io">io</a>
  &#8226;   <a href="#itertools">itertools</a>
+ &#8226;   <a href="#org">org</a>
  &#8226;   <a href="#pprint">pprint</a>
  &#8226;   <a href="#re">re</a>
  &#8226;   <a href="#struct">struct</a>
@@ -26583,7 +26332,6 @@ imported by:
     <a href="#PIL.ImagePalette">PIL.ImagePalette</a>
  &#8226;   <a href="#email.generator">email.generator</a>
  &#8226;   <a href="#email.utils">email.utils</a>
- &#8226;   <a href="#granularSynthesis">granularSynthesis</a>
  &#8226;   <a href="#matplotlib.backends.backend_webagg">matplotlib.backends.backend_webagg</a>
  &#8226;   <a href="#pkg_resources._vendor.more_itertools.more">pkg_resources._vendor.more_itertools.more</a>
  &#8226;   <a href="#pkg_resources._vendor.more_itertools.recipes">pkg_resources._vendor.more_itertools.recipes</a>
@@ -26591,6 +26339,7 @@ imported by:
  &#8226;   <a href="#setuptools._vendor.more_itertools.more">setuptools._vendor.more_itertools.more</a>
  &#8226;   <a href="#setuptools._vendor.more_itertools.recipes">setuptools._vendor.more_itertools.recipes</a>
  &#8226;   <a href="#statistics">statistics</a>
+ &#8226;   <a href="#synthesis.granularSynthesis">synthesis.granularSynthesis</a>
  &#8226;   <a href="#tempfile">tempfile</a>
  &#8226;   <a href="#uuid">uuid</a>
 
@@ -26634,7 +26383,6 @@ imported by:
  &#8226;   <a href="#cffi.api">cffi.api</a>
  &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
  &#8226;   <a href="#cgi">cgi</a>
- &#8226;   <a href="#colorama.ansitowin32">colorama.ansitowin32</a>
  &#8226;   <a href="#configparser">configparser</a>
  &#8226;   <a href="#csv">csv</a>
  &#8226;   <a href="#ctypes._aix">ctypes._aix</a>
@@ -26800,10 +26548,6 @@ imported by:
  &#8226;   <a href="#textwrap">textwrap</a>
  &#8226;   <a href="#tkinter">tkinter</a>
  &#8226;   <a href="#tokenize">tokenize</a>
- &#8226;   <a href="#tqdm.cli">tqdm.cli</a>
- &#8226;   <a href="#tqdm.gui">tqdm.gui</a>
- &#8226;   <a href="#tqdm.notebook">tqdm.notebook</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
  &#8226;   <a href="#typing">typing</a>
  &#8226;   <a href="#unittest.case">unittest.case</a>
  &#8226;   <a href="#unittest.loader">unittest.loader</a>
@@ -35920,8 +35664,7 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#granularSynthesis">granularSynthesis</a>
- &#8226;   <a href="#scipy.optimize._differentialevolution">scipy.optimize._differentialevolution</a>
+    <a href="#scipy.optimize._differentialevolution">scipy.optimize._differentialevolution</a>
  &#8226;   <a href="#scipy.optimize._shgo">scipy.optimize._shgo</a>
  &#8226;   <a href="#scipy.stats">scipy.stats</a>
  &#8226;   <a href="#scipy.stats._axis_nan_policy">scipy.stats._axis_nan_policy</a>
@@ -35976,6 +35719,7 @@ imported by:
  &#8226;   <a href="#scipy.stats.qmc">scipy.stats.qmc</a>
  &#8226;   <a href="#scipy.stats.statlib">scipy.stats.statlib</a>
  &#8226;   <a href="#scipy.stats.stats">scipy.stats.stats</a>
+ &#8226;   <a href="#synthesis.granularSynthesis">synthesis.granularSynthesis</a>
 
   </div>
 
@@ -41427,7 +41171,6 @@ imported by:
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
     <a href="#matplotlib">matplotlib</a>
- &#8226;   <a href="#tqdm.version">tqdm.version</a>
 
   </div>
 
@@ -41455,7 +41198,6 @@ imported by:
  &#8226;   <a href="#setuptools._distutils.cygwinccompiler">setuptools._distutils.cygwinccompiler</a>
  &#8226;   <a href="#setuptools._distutils.unixccompiler">setuptools._distutils.unixccompiler</a>
  &#8226;   <a href="#setuptools.dist">setuptools.dist</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
  &#8226;   <a href="#webbrowser">webbrowser</a>
 
   </div>
@@ -41502,7 +41244,6 @@ imported by:
  &#8226;   <a href="#setuptools.archive_util">setuptools.archive_util</a>
  &#8226;   <a href="#tarfile">tarfile</a>
  &#8226;   <a href="#tempfile">tempfile</a>
- &#8226;   <a href="#tqdm.cli">tqdm.cli</a>
  &#8226;   <a href="#uuid">uuid</a>
  &#8226;   <a href="#webbrowser">webbrowser</a>
  &#8226;   <a href="#zipfile">zipfile</a>
@@ -42052,7 +41793,6 @@ imported by:
  &#8226;   <a href="#setuptools._vendor.packaging._musllinux">setuptools._vendor.packaging._musllinux</a>
  &#8226;   <a href="#six">six</a>
  &#8226;   <a href="#tarfile">tarfile</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
  &#8226;   <a href="#zipfile">zipfile</a>
 
   </div>
@@ -42131,9 +41871,39 @@ imported by:
  &#8226;   <a href="#setuptools._vendor.packaging._musllinux">setuptools._vendor.packaging._musllinux</a>
  &#8226;   <a href="#setuptools.installer">setuptools.installer</a>
  &#8226;   <a href="#setuptools.msvc">setuptools.msvc</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
  &#8226;   <a href="#uuid">uuid</a>
  &#8226;   <a href="#webbrowser">webbrowser</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="synthesis"></a>
+  <a target="code" href="-" type="text/plain"><tt>synthesis</tt></a>
+<span class="moduletype">NamespacePackage</span>  <div class="import">
+imported by:
+    <a href="#synthesis.granularSynthesis">synthesis.granularSynthesis</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="synthesis.granularSynthesis"></a>
+  <a target="code" href="///C:/Users/madel/OneDrive/Documents/GitHub/GranularSynthesis/synthesis/granularSynthesis.py" type="text/plain"><tt>synthesis.granularSynthesis</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#enum">enum</a>
+ &#8226;   <a href="#math">math</a>
+ &#8226;   <a href="#random">random</a>
+ &#8226;   <a href="#scipy.stats">scipy.stats</a>
+ &#8226;   <a href="#synthesis">synthesis</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#main.py">main.py</a>
 
   </div>
 
@@ -42193,8 +41963,6 @@ imported by:
  &#8226;   <a href="#code">code</a>
  &#8226;   <a href="#codecs">codecs</a>
  &#8226;   <a href="#collections">collections</a>
- &#8226;   <a href="#colorama.ansitowin32">colorama.ansitowin32</a>
- &#8226;   <a href="#colorama.initialise">colorama.initialise</a>
  &#8226;   <a href="#concurrent.futures.process">concurrent.futures.process</a>
  &#8226;   <a href="#configparser">configparser</a>
  &#8226;   <a href="#contextlib">contextlib</a>
@@ -42428,11 +42196,6 @@ imported by:
  &#8226;   <a href="#tkinter">tkinter</a>
  &#8226;   <a href="#tkinter.filedialog">tkinter.filedialog</a>
  &#8226;   <a href="#tokenize">tokenize</a>
- &#8226;   <a href="#tqdm._tqdm_pandas">tqdm._tqdm_pandas</a>
- &#8226;   <a href="#tqdm.cli">tqdm.cli</a>
- &#8226;   <a href="#tqdm.notebook">tqdm.notebook</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
  &#8226;   <a href="#traceback">traceback</a>
  &#8226;   <a href="#types">types</a>
  &#8226;   <a href="#typing">typing</a>
@@ -42603,7 +42366,6 @@ imported by:
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
     <a href="#getpass">getpass</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
  &#8226;   <a href="#tty">tty</a>
 
   </div>
@@ -42721,8 +42483,6 @@ imported by:
  &#8226;   <a href="#socketserver">socketserver</a>
  &#8226;   <a href="#sounddevice">sounddevice</a>
  &#8226;   <a href="#subprocess">subprocess</a>
- &#8226;   <a href="#tqdm._monitor">tqdm._monitor</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
  &#8226;   <a href="#unittest.mock">unittest.mock</a>
  &#8226;   <a href="#webbrowser">webbrowser</a>
  &#8226;   <a href="#zipfile">zipfile</a>
@@ -42787,8 +42547,6 @@ imported by:
  &#8226;   <a href="#subprocess">subprocess</a>
  &#8226;   <a href="#tarfile">tarfile</a>
  &#8226;   <a href="#threading">threading</a>
- &#8226;   <a href="#tqdm._monitor">tqdm._monitor</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
  &#8226;   <a href="#unittest.runner">unittest.runner</a>
  &#8226;   <a href="#urllib.request">urllib.request</a>
  &#8226;   <a href="#urllib.robotparser">urllib.robotparser</a>
@@ -43018,258 +42776,6 @@ imported by:
 imported by:
     <a href="#matplotlib.backends.backend_webagg">matplotlib.backends.backend_webagg</a>
  &#8226;   <a href="#matplotlib.backends.backend_webagg_core">matplotlib.backends.backend_webagg_core</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="tqdm"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/tqdm/__init__.py" type="text/plain"><tt>tqdm</tt></a>
-<span class="moduletype">Package</span>  <div class="import">
-imports:
-    <a href="#tqdm._monitor">tqdm._monitor</a>
- &#8226;   <a href="#tqdm._tqdm_pandas">tqdm._tqdm_pandas</a>
- &#8226;   <a href="#tqdm.cli">tqdm.cli</a>
- &#8226;   <a href="#tqdm.gui">tqdm.gui</a>
- &#8226;   <a href="#tqdm.notebook">tqdm.notebook</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
- &#8226;   <a href="#tqdm.version">tqdm.version</a>
- &#8226;   <a href="#warnings">warnings</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#granularSynthesis">granularSynthesis</a>
- &#8226;   <a href="#tqdm._dist_ver">tqdm._dist_ver</a>
- &#8226;   <a href="#tqdm._monitor">tqdm._monitor</a>
- &#8226;   <a href="#tqdm._tqdm_pandas">tqdm._tqdm_pandas</a>
- &#8226;   <a href="#tqdm.cli">tqdm.cli</a>
- &#8226;   <a href="#tqdm.gui">tqdm.gui</a>
- &#8226;   <a href="#tqdm.notebook">tqdm.notebook</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
- &#8226;   <a href="#tqdm.version">tqdm.version</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="tqdm._dist_ver"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/tqdm/_dist_ver.py" type="text/plain"><tt>tqdm._dist_ver</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#tqdm">tqdm</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#tqdm.version">tqdm.version</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="tqdm._monitor"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/tqdm/_monitor.py" type="text/plain"><tt>tqdm._monitor</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#atexit">atexit</a>
- &#8226;   <a href="#threading">threading</a>
- &#8226;   <a href="#time">time</a>
- &#8226;   <a href="#tqdm">tqdm</a>
- &#8226;   <a href="#warnings">warnings</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#tqdm">tqdm</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="tqdm._tqdm_pandas"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/tqdm/_tqdm_pandas.py" type="text/plain"><tt>tqdm._tqdm_pandas</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#sys">sys</a>
- &#8226;   <a href="#tqdm">tqdm</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#tqdm">tqdm</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="tqdm.cli"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/tqdm/cli.py" type="text/plain"><tt>tqdm.cli</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#ast">ast</a>
- &#8226;   <a href="#importlib">importlib</a>
- &#8226;   <a href="#importlib.resources">importlib.resources</a>
- &#8226;   <a href="#importlib_resources">importlib_resources</a>
- &#8226;   <a href="#logging">logging</a>
- &#8226;   <a href="#os">os</a>
- &#8226;   <a href="#re">re</a>
- &#8226;   <a href="#shutil">shutil</a>
- &#8226;   <a href="#sys">sys</a>
- &#8226;   <a href="#tqdm">tqdm</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
- &#8226;   <a href="#tqdm.version">tqdm.version</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#tqdm">tqdm</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="tqdm.gui"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/tqdm/gui.py" type="text/plain"><tt>tqdm.gui</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#__future__">__future__</a>
- &#8226;   <a href="#collections">collections</a>
- &#8226;   <a href="#matplotlib">matplotlib</a>
- &#8226;   <a href="#matplotlib.pyplot">matplotlib.pyplot</a>
- &#8226;   <a href="#re">re</a>
- &#8226;   <a href="#tqdm">tqdm</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
- &#8226;   <a href="#warnings">warnings</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#tqdm">tqdm</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="tqdm.notebook"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/tqdm/notebook.py" type="text/plain"><tt>tqdm.notebook</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#'IPython.display'">'IPython.display'</a>
- &#8226;   <a href="#'IPython.html'">'IPython.html'</a>
- &#8226;   <a href="#__future__">__future__</a>
- &#8226;   <a href="#cgi">cgi</a>
- &#8226;   <a href="#html">html</a>
- &#8226;   <a href="#ipywidgets">ipywidgets</a>
- &#8226;   <a href="#re">re</a>
- &#8226;   <a href="#sys">sys</a>
- &#8226;   <a href="#tqdm">tqdm</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
- &#8226;   <a href="#warnings">warnings</a>
- &#8226;   <a href="#weakref">weakref</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#tqdm">tqdm</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="tqdm.std"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/tqdm/std.py" type="text/plain"><tt>tqdm.std</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#'pandas.core'">'pandas.core'</a>
- &#8226;   <a href="#__future__">__future__</a>
- &#8226;   <a href="#collections">collections</a>
- &#8226;   <a href="#contextlib">contextlib</a>
- &#8226;   <a href="#datetime">datetime</a>
- &#8226;   <a href="#multiprocessing">multiprocessing</a>
- &#8226;   <a href="#multiprocessing.RLock">multiprocessing.RLock</a>
- &#8226;   <a href="#numbers">numbers</a>
- &#8226;   <a href="#pandas">pandas</a>
- &#8226;   <a href="#sys">sys</a>
- &#8226;   <a href="#threading">threading</a>
- &#8226;   <a href="#time">time</a>
- &#8226;   <a href="#tqdm">tqdm</a>
- &#8226;   <a href="#tqdm._monitor">tqdm._monitor</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
- &#8226;   <a href="#warnings">warnings</a>
- &#8226;   <a href="#weakref">weakref</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#tqdm">tqdm</a>
- &#8226;   <a href="#tqdm.cli">tqdm.cli</a>
- &#8226;   <a href="#tqdm.gui">tqdm.gui</a>
- &#8226;   <a href="#tqdm.notebook">tqdm.notebook</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="tqdm.utils"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/tqdm/utils.py" type="text/plain"><tt>tqdm.utils</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#array">array</a>
- &#8226;   <a href="#colorama">colorama</a>
- &#8226;   <a href="#ctypes">ctypes</a>
- &#8226;   <a href="#fcntl">fcntl</a>
- &#8226;   <a href="#functools">functools</a>
- &#8226;   <a href="#os">os</a>
- &#8226;   <a href="#re">re</a>
- &#8226;   <a href="#shlex">shlex</a>
- &#8226;   <a href="#struct">struct</a>
- &#8226;   <a href="#subprocess">subprocess</a>
- &#8226;   <a href="#sys">sys</a>
- &#8226;   <a href="#termios">termios</a>
- &#8226;   <a href="#tqdm">tqdm</a>
- &#8226;   <a href="#unicodedata">unicodedata</a>
- &#8226;   <a href="#warnings">warnings</a>
- &#8226;   <a href="#weakref">weakref</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#tqdm.gui">tqdm.gui</a>
- &#8226;   <a href="#tqdm.notebook">tqdm.notebook</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="tqdm.version"></a>
-  <a target="code" href="///C:/Users/madel/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/site-packages/tqdm/version.py" type="text/plain"><tt>tqdm.version</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#setuptools_scm">setuptools_scm</a>
- &#8226;   <a href="#tqdm">tqdm</a>
- &#8226;   <a href="#tqdm._dist_ver">tqdm._dist_ver</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#tqdm">tqdm</a>
- &#8226;   <a href="#tqdm.cli">tqdm.cli</a>
 
   </div>
 
@@ -43673,7 +43179,6 @@ imported by:
  &#8226;   <a href="#setuptools.unicode_utils">setuptools.unicode_utils</a>
  &#8226;   <a href="#sre_parse">sre_parse</a>
  &#8226;   <a href="#stringprep">stringprep</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
  &#8226;   <a href="#urllib.parse">urllib.parse</a>
 
   </div>
@@ -44571,12 +44076,6 @@ imported by:
  &#8226;   <a href="#sysconfig">sysconfig</a>
  &#8226;   <a href="#tempfile">tempfile</a>
  &#8226;   <a href="#threading">threading</a>
- &#8226;   <a href="#tqdm">tqdm</a>
- &#8226;   <a href="#tqdm._monitor">tqdm._monitor</a>
- &#8226;   <a href="#tqdm.gui">tqdm.gui</a>
- &#8226;   <a href="#tqdm.notebook">tqdm.notebook</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
  &#8226;   <a href="#typing_extensions">typing_extensions</a>
  &#8226;   <a href="#unittest.case">unittest.case</a>
  &#8226;   <a href="#unittest.loader">unittest.loader</a>
@@ -44637,9 +44136,6 @@ imported by:
  &#8226;   <a href="#pyparsing.results">pyparsing.results</a>
  &#8226;   <a href="#setuptools._vendor.pyparsing.results">setuptools._vendor.pyparsing.results</a>
  &#8226;   <a href="#tempfile">tempfile</a>
- &#8226;   <a href="#tqdm.notebook">tqdm.notebook</a>
- &#8226;   <a href="#tqdm.std">tqdm.std</a>
- &#8226;   <a href="#tqdm.utils">tqdm.utils</a>
  &#8226;   <a href="#unittest.signals">unittest.signals</a>
  &#8226;   <a href="#xml.sax.expatreader">xml.sax.expatreader</a>
 
