@@ -105,6 +105,7 @@ def synthesize():
 
     if fname == '': 
         dpg.set_value(msg_box, "Error: No Input File")
+        dpg.set_value(text, "File Name: " + fname)
         return
     if dpg.get_value("out_dur") <= 0:
         dpg.set_value(msg_box, "Error: Ouput Duration must be greater than 0")
@@ -117,9 +118,9 @@ def synthesize():
         return 
 
     output = gs.synthesizeGranularly(fname, input_wav_data, dpg.get_value("out_dur"), switch.get(envelope,gs.Envelope.TRAPEZIUM),
-    gs.Selection.NORMAL, dpg.get_value("grain_dur"), dpg.get_value("grain_dur_var"),
-    dpg.get_value("cloud_density"),dpg.get_value("cloud_density_var"),
-    dpg.get_value("grain_pitch"),dpg.get_value("grain_pitch_var"), int(nsamples*(dpg.get_value("center_slider")/100)), cloud_minimum, cloud_maximum, input_wav_fs)
+    gs.Selection.NORMAL, dpg.get_value("grain_dur"), dpg.get_value("grain_dur_var")/100,
+    dpg.get_value("cloud_density"),dpg.get_value("cloud_density_var")/100,
+    dpg.get_value("grain_pitch"),dpg.get_value("grain_pitch_var")/100, int(nsamples*(dpg.get_value("center_slider")/100)), cloud_minimum, cloud_maximum, input_wav_fs)
 
     global output_wav_data
     output_wav_data = np.array(output)
@@ -161,6 +162,8 @@ def prep_env_display():
 def play_input():
     if fname == '':
         dpg.set_value(msg_box, "Error: No Input File")
+        dpg.set_value(text, "File Name: " + fname)
+
     else: 
         try:
             sd.play(input_wav_data, input_wav_fs)
