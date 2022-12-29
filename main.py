@@ -101,6 +101,11 @@ def enable_buttons():
     dpg.enable_item("output_preview")
 
 def synthesize():
+    '''
+    This function is used to synthesize the provided audio using the
+    provided parameters. The buttons are disabled to prevent tampering.
+    We then call the granularSynthesis.py's synthesizeGranularly.
+    '''
     disable_buttons()
     dpg.set_value(msg_box, "Generating Output...")
     switch = {
@@ -110,6 +115,7 @@ def synthesize():
         5: gs.Envelope.COMPLEX
     }
 
+    #countermeasures for possible user errors
     if fname == '': 
         dpg.set_value(msg_box, "Error: No Input File")
         dpg.set_value(text, "File Name: " + fname)
@@ -129,6 +135,7 @@ def synthesize():
     dpg.get_value("cloud_density"),dpg.get_value("cloud_density_var")/100,
     dpg.get_value("grain_pitch"),dpg.get_value("grain_pitch_var")/100, int(nsamples*(dpg.get_value("center_slider")/100)), cloud_minimum, cloud_maximum, input_wav_fs)
 
+    #updating the output data on global scope
     global output_wav_data
     output_wav_data = np.array(output)
 
@@ -139,8 +146,9 @@ def synthesize():
     dpg.set_value('output_line', [indices, output_wav_data])
     resize_out()
 
-
+    #notifying user
     dpg.set_value(msg_box, "Output Generated")
+    #re-enabling buttons
     enable_buttons()
 
 # initial input graph display  
@@ -167,6 +175,9 @@ def prep_env_display():
     return sample_table, indexes
 
 def play_input():
+    '''
+    Plays our input :) so tubular
+    '''
     if fname == '':
         dpg.set_value(msg_box, "Error: No Input File")
         dpg.set_value(text, "File Name: " + fname)
@@ -178,6 +189,9 @@ def play_input():
             dpg.set_value(msg_box, "Error: Input Playback Failure")    
 
 def play_output():
+    '''
+    Plays our output :) so rad
+    '''
     if output_wav_data.size == 0: 
         dpg.set_value(msg_box, "Error: No Output to Play")   
     else:
@@ -187,6 +201,9 @@ def play_output():
             dpg.set_value(msg_box, "Error: Output Playback Failure")  
 
 def save_callback():
+    '''
+    Callback function for the "save" button
+    '''
     if output_wav_data.size == 0: 
         dpg.set_value(msg_box, "Error: No Ouput to Save")
         return
@@ -211,6 +228,9 @@ def cancel_callback(sender, app_data):
     print("App Data: ", app_data)
 
 def select_file():
+    '''
+    This method is for selecting files :) so cool
+    '''
     global fname
     global input_wav_data
     global input_wav_fs
@@ -234,6 +254,12 @@ def select_file_path():
         dpg.set_value(msg_box, "Error: Path Selection Failed")
 
 def update_envelope(sender, app_data, user_data):
+    '''
+    Onclick function for envelope selection
+    This function updates the selected envelope based on user input
+    It updates the global variable envelope and updates the colouring
+    of the envelope buttons
+    '''
     sample_table = []
     indexes = list(range(0,100))
     state, enabled_theme, disabled_theme = user_data
@@ -275,6 +301,9 @@ def update_envelope(sender, app_data, user_data):
     dpg.set_value("e_line", [indexes, sample_table])
 
 def cloud_center():
+    '''
+    This function works to update the cloud values (center,min,max)
+    '''
     global nsamples
     global input_wav_data
     c = dpg.get_value("center_slider")
