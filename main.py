@@ -298,22 +298,21 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
     with dpg.group(horizontal=True):
         with dpg.child_window(width=header_length, tag="control"):
 
-            dpg.add_button(tag='synth',label='Synthesize', width = 418, height=button_height, callback = synthesize)
+            dpg.add_button(tag='synth',label='Synthesize', width = 416, height=button_height+15, callback = synthesize)
             with dpg.group(horizontal=True):
                 dpg.add_button(label="Play Input", width = 133, height=button_height, callback=play_input, tag = "input_preview")
                 dpg.add_button(label="Play Output", width = 133, height=button_height, callback=play_output, tag = "output_preview")
                 dpg.add_button(label = "Stop Playback", width = 133, height=button_height, callback=sd.stop)
-                    
-            # Message Box
+                        
+                # Message Box
             with dpg.child_window(height=35):
                 msg_box = dpg.add_text("")
-
+            dpg.add_text("")
             # Input file selection
             with dpg.collapsing_header(label="Input File Selection"):
                 with dpg.group(horizontal=True):
                     dpg.add_button(label="Select File", callback=select_file)
                     text = dpg.add_text("File Name: "+fname)
-
             # Output Specification
             with dpg.collapsing_header(label="Output Specifications"):
                 dpg.add_input_float(label="Output Duration (s)", default_value=1, width=200, tag="out_dur")
@@ -356,7 +355,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
                         dpg.set_axis_limits("ex_axis", 0, 100)
                         dpg.add_plot_axis(dpg.mvYAxis, tag="ey_axis", no_tick_labels=True, no_tick_marks=True)
                         dpg.set_axis_limits("ey_axis", -0.25, 1.25)
-                        
+                            
                         samples, indexes = prep_env_display()
                         dpg.add_line_series(indexes, samples,  parent="ex_axis", tag="e_line")
 
