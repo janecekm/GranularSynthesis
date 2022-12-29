@@ -3,7 +3,7 @@ MADELINE JANECEK, BRENDAN PARK
 DECEMEBER 2022
 COSC 4P98 PROJECT
 Implementation of granular synthesis w/ GUI
-
+Code for performing granular synthesis
 """
 
 import math                         # for things like sine and PI

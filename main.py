@@ -1,3 +1,11 @@
+"""
+MADELINE JANECEK, BRENDAN PARK
+DECEMEBER 2022
+COSC 4P98 PROJECT
+Implementation of granular synthesis w/ GUI
+Code for GUI
+"""
+
 import dearpygui.dearpygui as dpg       # for GUI
 from tkinter import filedialog as fd    # for file selection
 import sounddevice as sd                # to play .wav files
@@ -198,8 +206,6 @@ def save_callback():
     except:
         dpg.set_value(msg_box, "Error: Save Output Failure")  
     
-
-
 def cancel_callback(sender, app_data):
     print('Cancel was clicked.')
     print("Sender: ", sender)
