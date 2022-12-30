@@ -94,9 +94,11 @@ def disable_buttons():
     dpg.disable_item("synth")
     dpg.disable_item("input_preview")
     dpg.disable_item("output_preview")
+    dpg.enable_item("save_button")
 
 def enable_buttons():
     dpg.enable_item("synth")
+    dpg.enable_item("save_button")
     dpg.enable_item("input_preview")
     dpg.enable_item("output_preview")
 
@@ -119,15 +121,19 @@ def synthesize():
     if fname == '': 
         dpg.set_value(msg_box, "Error: No Input File")
         dpg.set_value(text, "File Name: " + fname)
+        enable_buttons()
         return
     if dpg.get_value("out_dur") <= 0:
         dpg.set_value(msg_box, "Error: Ouput Duration must be greater than 0")
+        enable_buttons()
         return 
     if dpg.get_value("grain_dur") <= 0:
         dpg.set_value(msg_box, "Error: Grain Duration must be greater than 0")
+        enable_buttons()
         return 
     if dpg.get_value("cloud_density") <=0: 
         dpg.set_value(msg_box, "Error: Cloud Density must be greater than 0")
+        enable_buttons()
         return 
 
     output = gs.synthesizeGranularly(fname, input_wav_data, dpg.get_value("out_dur"), switch.get(envelope,gs.Envelope.TRAPEZIUM),
@@ -354,7 +360,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
                 with dpg.group(horizontal=True):
                     dpg.add_button(label="Select Folder", callback=select_file_path)
                     file_text = dpg.add_text("Folder Name: ")
-                dpg.add_button(label="Save", width=418, height=button_height, callback = save_callback)
+                dpg.add_button(label="Save", width=418, height=button_height, callback = save_callback, tag="save_button")
 
             # Grain specification
             with dpg.collapsing_header(label="Grain Specifications"):
