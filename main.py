@@ -240,16 +240,29 @@ def select_file():
     global fname
     global input_wav_data
     global input_wav_fs
+
     try:
         fname = fd.askopenfilename(filetypes=(("Audio Files", ".wav"),   ("All Files", "*.*")))
         t = fname.split("/").pop()
         dpg.set_value(text,"File Name: "+t)
-        input_wav_data, input_wav_fs = sf.read(fname, dtype='float32') 
+        input_wav_data, input_wav_fs = sf.read(fname, dtype='float32', always_2d=True) 
+
+        dimensions = input_wav_data.shape[1] # will be 2 if stereo input
+        # if stereo input, convert to mono
+        if dimensions == 2:
+            temp = []
+            for x in input_wav_data:
+                temp.append(x[0] + x[1])
+            input_wav_data = np.array(temp)
 
         #  update graph display
         update_in_display()
     except:
         dpg.set_value(msg_box, "Error: File Selection Failed")
+        fname = ''
+        samples, indexes = prep_display()
+        dpg.set_value('input_line', [indexes, samples])
+
 
 def select_file_path():
     global pathname
