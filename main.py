@@ -254,6 +254,11 @@ def select_file():
             for x in input_wav_data:
                 temp.append(x[0] + x[1])
             input_wav_data = np.array(temp)
+        else:
+            temp = []
+            for x in input_wav_data:
+                temp.append(x[0])
+            input_wav_data = np.array(temp)
 
         #  update graph display
         update_in_display()
