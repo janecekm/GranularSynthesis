@@ -374,7 +374,7 @@ with dpg.window(tag="GS", label="GS", width=800, height=300):
             # Output Specification
             with dpg.collapsing_header(label="Output Specifications"):
                 dpg.add_input_float(label="Output Duration (s)", default_value=1, width=200, tag="out_dur")
-                dpg.add_input_text(width = 200, label="Ouptut File Name", default_value="output_file", tag="out_name")
+                dpg.add_input_text(width = 200, label="Output File Name", default_value="output_file", tag="out_name")
                 with dpg.group(horizontal=True):
                     dpg.add_button(label="Select Folder", callback=select_file_path)
                     file_text = dpg.add_text("Folder Name: ")
